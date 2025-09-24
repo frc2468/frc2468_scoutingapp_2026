@@ -5,7 +5,7 @@ let settings = {
   "auto": [
     //cube cone buttons
     {
-      "label": "A High ❒",
+      "label": "A L4",
       "trigger": "e", 
       "columnStart": 1,
       "columnEnd": 2,
@@ -15,7 +15,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "A High △",
+      "label": "A L3",
       "trigger": "r", 
       "columnStart": 2,
       "columnEnd": 3,
@@ -25,7 +25,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "A Mid ❒",
+      "label": "A L2",
       "trigger": "d", 
       "columnStart": 1,
       "columnEnd": 2,
@@ -35,7 +35,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "A Mid △",
+      "label": "A L1",
       "trigger": "f", 
       "columnStart": 2,
       "columnEnd": 3,
@@ -45,7 +45,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "A Low ❒",
+      "label": "A Processor",
       "trigger": "c", 
       "columnStart": 1,
       "columnEnd": 2,
@@ -55,7 +55,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "A Low △",
+      "label": "A Net",
       "trigger": "v", 
       "columnStart": 2,
       "columnEnd": 3,
@@ -75,18 +75,18 @@ let settings = {
       "writeLoc": 7,
       "writeType": "int"
     },
-    {
-      "label": "A Climb Level",
-      "trigger": "l", 
-      "columnStart": 3,
-      "columnEnd": 4,
-      "rowStart": 3,
-      "rowEnd": 5,
-      "writeLoc": 8,
-      "writeType": "cycG",
-      "cycGOptions": [0, 8, 12],
-      "writeCycGOptions": 3
-    },
+    // {
+    //   "label": "A Climb Level",
+    //   "trigger": "l", 
+    //   "columnStart": 3,
+    //   "columnEnd": 4,
+    //   "rowStart": 3,
+    //   "rowEnd": 5,
+    //   "writeLoc": 8,
+    //   "writeType": "cycG",
+    //   "cycGOptions": [0, 8, 12],
+    //   "writeCycGOptions": 3
+    // },
     {
       "label": "Oof Time",
       "trigger": ";", 
@@ -127,7 +127,7 @@ let settings = {
   "tele":[
     //cube cone buttons
     {
-      "label": "T High ❒",
+      "label": "T L4",
       "trigger": "e", 
       "columnStart": 1,
       "columnEnd": 2,
@@ -137,7 +137,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "T High △",
+      "label": "T L3",
       "trigger": "r", 
       "columnStart": 2,
       "columnEnd": 3,
@@ -147,7 +147,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "T Mid ❒",
+      "label": "T L2",
       "trigger": "d", 
       "columnStart": 1,
       "columnEnd": 2,
@@ -157,7 +157,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "T Mid △",
+      "label": "T L1",
       "trigger": "f", 
       "columnStart": 2,
       "columnEnd": 3,
@@ -167,7 +167,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "T Low ❒",
+      "label": "T Processor",
       "trigger": "c", 
       "columnStart": 1,
       "columnEnd": 2,
@@ -177,7 +177,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "T Low △",
+      "label": "T Net",
       "trigger": "v", 
       "columnStart": 2,
       "columnEnd": 3,
@@ -216,7 +216,7 @@ let settings = {
       "rowEnd": 5,
       "writeLoc": 16,
       "writeType": "cycG",
-      "cycGOptions": [0, 2, 6, 10],
+      "cycGOptions": [0, 2, 6, 12],
       "writeCycGOptions": 4
     },
     {
