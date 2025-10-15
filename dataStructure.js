@@ -85,9 +85,14 @@ export class DataStructure {
         this.pitscoutLabels = ['Timestamp','Team', 'Scouter', 'Scout Name', 'Drivetrain', 'Robot Weight', 'Number of Motors', 'Motor Type', 'Coding Language', 'Vision Capabilities', 'Vision', 'Auto', 'Auto Climb', 'Endgame Climb', 'Piece Type', 'Manipulator', 'Aluminum Assistance', 'Mech-Controls Issue?', 'Miscellaneous'];
         this.imageLabels = ['Timestamp', 'Team', 'Image of Robot'];
 
-        this.firebasePath = "EVENT_PATH_HERE";
+        this.firebasePath = "2025wimu";
         this.firebaseConfig = {
-            //insert your firebase API config here
+            apiKey: "AIzaSyBvN_v9pz5KFshemssxm-cb8R2vTviGkOs",
+            authDomain: "scouting-app-d8a4d.firebaseapp.com",
+            projectId: "scouting-app-d8a4d",
+            storageBucket: "scouting-app-d8a4d.firebasestorage.app",
+            messagingSenderId: "1009813900313",
+            appId: "1:1009813900313:web:a7c0ac40ee0e4cf0eeae88"
         };
         this.app;
         this.database;

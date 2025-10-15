@@ -11,7 +11,7 @@ let api_url;
 let toggleTBA = false;
 
 // Check if Firebase path exists in local storage
-let availPaths = ["ADD_PATHS_HERE"];
+let availPaths = ["2025wimu"];
 let firebasePath = localStorage.getItem('firebasePath');
 if (firebasePath == "null") {
     let valid = true;
@@ -50,7 +50,7 @@ if (firebasePath == "null") {
     eventName = userInput;
     localStorage.setItem('firebasePath', userInput);
 }
-api_url = "https://www.thebluealliance.com/api/v3/event/" + eventName + "/matches?X-TBA-Auth-Key=TBA_AUTH_HERE";
+api_url = "https://www.thebluealliance.com/api/v3/event/" + eventName + "/matches?X-TBA-Auth-Key=vyLPDCJ6TJZgpdVmZkszbUI65Bdz4eqjYIEm4KjCAOENr4WXCyn1oMOHi5bFW2er";
 console.log("success")
 
 var netStatus;

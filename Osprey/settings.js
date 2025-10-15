@@ -21,7 +21,7 @@ let settings = {
       "columnEnd": 3,
       "rowStart": 1,
       "rowEnd": 2,
-      "writeLoc": 4,
+      "writeLoc": 2,
       "writeType": "int"
     },
     {
@@ -31,7 +31,7 @@ let settings = {
       "columnEnd": 2,
       "rowStart": 2,
       "rowEnd": 3,
-      "writeLoc": 2,
+      "writeLoc": 3,
       "writeType": "int"
     },
     {
@@ -41,7 +41,7 @@ let settings = {
       "columnEnd": 3,
       "rowStart": 2,
       "rowEnd": 3,
-      "writeLoc": 5,
+      "writeLoc": 4,
       "writeType": "int"
     },
     {
@@ -51,7 +51,7 @@ let settings = {
       "columnEnd": 2,
       "rowStart": 3,
       "rowEnd": 4,
-      "writeLoc": 3,
+      "writeLoc": 5,
       "writeType": "int"
     },
     {
@@ -94,7 +94,7 @@ let settings = {
       "columnEnd": 5,
       "rowStart": 3,
       "rowEnd": 5,
-      "writeLoc": 20,
+      "writeLoc": 18,
       "writeType": "inc"
     },
     {
@@ -133,7 +133,7 @@ let settings = {
       "columnEnd": 2,
       "rowStart": 1,
       "rowEnd": 2,
-      "writeLoc": 9,
+      "writeLoc": 8,
       "writeType": "int"
     },
     {
@@ -143,7 +143,7 @@ let settings = {
       "columnEnd": 3,
       "rowStart": 1,
       "rowEnd": 2,
-      "writeLoc": 12,
+      "writeLoc": 9,
       "writeType": "int"
     },
     {
@@ -163,7 +163,7 @@ let settings = {
       "columnEnd": 3,
       "rowStart": 2,
       "rowEnd": 3,
-      "writeLoc": 13,
+      "writeLoc": 11,
       "writeType": "int"
     },
     {
@@ -173,7 +173,7 @@ let settings = {
       "columnEnd": 2,
       "rowStart": 3,
       "rowEnd": 4,
-      "writeLoc": 11,
+      "writeLoc": 12,
       "writeType": "int"
     },
     {
@@ -183,7 +183,7 @@ let settings = {
       "columnEnd": 3,
       "rowStart": 3,
       "rowEnd": 4,
-      "writeLoc": 14,
+      "writeLoc": 13,
       "writeType": "int"
     },
     //cube cone buttons end
@@ -194,7 +194,7 @@ let settings = {
       "columnEnd": 5,
       "rowStart": 1,
       "rowEnd": 2,
-      "writeLoc": 15,
+      "writeLoc": 14,
       "writeType": "int"
     },
     {
@@ -204,7 +204,7 @@ let settings = {
       "columnEnd": 5,
       "rowStart": 2,
       "rowEnd": 3,
-      "writeLoc": 19,
+      "writeLoc": 15,
       "writeType": "int"
     },
     {
@@ -226,7 +226,7 @@ let settings = {
       "columnEnd": 5,
       "rowStart": 3,
       "rowEnd": 5,
-      "writeLoc": 20,
+      "writeLoc": 18,
       "writeType": "inc"
     },
     {
@@ -236,7 +236,7 @@ let settings = {
       "columnEnd": 3,
       "rowStart": 4,
       "rowEnd": 5,
-      "writeLoc": 18, 
+      "writeLoc": 17, 
       "writeType": "inc"
     }
   ], 
@@ -252,19 +252,19 @@ let settings = {
 
     {
       "label": "Climbing Capabilities?",
-      "writeLoc": 21,
+      "writeLoc": 19,
       "writeType": "str",
       "placeholder": "e.g. write about climb, can balance?, very slow?"
     },
     {
       "label": "Intake?", 
-      "writeLoc": 22, 
+      "writeLoc": 20, 
       "writeType": "str",
       "placeholder": "e.g. speed, ground/shelf?"
     },
     {
       "label": "QATA",
-      "writeLoc": 23,
+      "writeLoc": 21,
       "writeType": "str",
       "placeholder": "e.g. ability place cube/cone, defence, penalties, speed"
     }
@@ -272,25 +272,25 @@ let settings = {
   "start": [
     {
       "label": "Scout ID",
-      "writeLoc": 24,
+      "writeLoc": 22,
       "writeType": "strBegin",
       "placeholder": "your team # + your name"
     },
     {
       "label": "Team Number",
-      "writeLoc": 25,
+      "writeLoc": 23,
       "writeType": "strBegin",
       "placeholder": "# of the team you are scouting"
     },
     {
       "label": "Match Number",
-      "writeLoc": 26,
+      "writeLoc": 24,
       "writeType": "strBegin",
       "placeholder": "current match #"
     },
     {
       "label": "Team Position",
-      "writeLoc": 27,
+      "writeLoc": 25,
       "writeType": "strBegin",
       "placeholder": "1, 2, or 3"
     }
@@ -298,8 +298,8 @@ let settings = {
   
 }
 
-let dataValues = [false,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,false,0,0,0,"","",""];
-let dataLabels = [ "Mobility", "Auto High Cube", "Auto Mid Cube", "Auto Low Cube", "Auto High Cone", "Auto Mid Cone", "Auto Low Cone", "Auto Fumbled", "Auto Climb", "High Cube", "Mid Cube", "Low Cube",  "High Cone", "Mid Cone", "Low Cone", "Fumbled", "Climb", "Park","Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Link QATA", "QATA"];
+let dataValues = [false,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"","",""];
+let dataLabels = [ "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", "Tele L4", "Tele L3", "Tele L2",  "Tele L1", "Tele Processor", "Tele Net", "Fumbled", "Climb", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Link QATA", "QATA"];
 
 // let tempFix = [{
 //   "label": "Attempted Climb",
