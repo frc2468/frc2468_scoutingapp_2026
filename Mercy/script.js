@@ -141,7 +141,7 @@ function uploadData() {
       }
       let invalidQualitative = ""
       let validQualitative = true;
-      for(let j=4; j<25; j++){
+      for(let j=4; j<23; j++){
         if(!/^\d+$/.test(data[j])){
           validQualitative = false;
           invalidQualitative+= "index " + (j+1) + ", with value " + data[j] + ", or " + dataStructure.dataLabels[j] + "<br>";

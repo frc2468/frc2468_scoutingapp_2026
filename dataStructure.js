@@ -4,32 +4,31 @@ export class DataStructure {
     constructor() {
         this.dataValues = [0,0,"","",
             false,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,false,
+            0,0,0,0,0,0,0,
             0,0,0,"","",""];
         this.dataLabels = ["Match", "Team", "Position", "Scout", 
-            "Mobility", "Auto High Cube", "Auto Mid Cube", "Auto Low Cube", "Auto High Cone", "Auto Mid Cone", "Auto Low Cone", "Auto Fumbled", "Auto Climb", 
-            "High Cube", "Mid Cube", "Low Cube", "High Cone", "Mid Cone", "Low Cone", "Fumbled", "Climb", "Park",
+            "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", 
+            "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "T Fumbled", "Climb",
             "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Intake QATA", "QATA"];
         this.dataTypes  = ["number", "number", "string", "string",
             "number", "number", "number", "number", "number", "number", "number", "number", "number",
-            "number", "number", "number", "number", "number", "number", "number", "number", "number", 
+            "number", "number", "number", "number", "number", "number", "number", 
             "number", "number", "number", "string", "string", "string"];            
         this.avgFilterLabels=[
             "Mobility",
-            "Auto High Cube",
-            "Auto Mid Cube",
-            "Auto Low Cube",
-            "Auto High Cone",
-            "Auto Mid Cone",
+            "Auto L4",
+            "Auto L3",
+            "Auto L2",
+            "Auto L1",
+            "Auto Processor",
             "Auto Low Cone",
             "Auto Fumbled",
-            "Auto Climb", 
-            "High Cube",
-            "Mid Cube",
-            "Low Cube",
-            "High Cone",
-            "Mid Cone",
-            "Low Cone",
+            "Tele L4",
+            "Tele L3",
+            "Tele L2",
+            "Tele L1",
+            "Tele Processor",
+            "Tele Net",
             "Fumbled",
             "Climb", 
             "Defense Time",
@@ -45,18 +44,16 @@ export class DataStructure {
             "Auto Mid Cone",
             "Auto Low Cone",
             "Auto Fumbled",
-            "Auto Climb"
         ];
         this.avgFilterLabelsTele = [
-            "High Cube",
-            "Mid Cube",
-            "Low Cube",
-            "High Cone",
-            "Mid Cone",
-            "Low Cone",
+            "Tele L4",
+            "Tele L3",
+            "Tele L2",
+            "Tele L1",
+            "Tele Processor",
+            "Tele Net",
             "Fumbled",
             "Climb", 
-            "Park"
         ];
         this.avgFilterLabelsDefPen = [
             "Defense Time",
@@ -64,13 +61,13 @@ export class DataStructure {
             "Oof Time"
         ];
         this.spiderChartLabels = [
-            "Auto Points", "Tele Cubes", "Tele Cones", "Tele Accuracy", "Endgame Points", "Defense Time"
+            "Auto Points", "Tele Coral", "Tele Algae", "Tele Accuracy", "Endgame Points", "Defense Time"
         ];
 
-        this.wghtValues = [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0];
-        this.ptValues = [3, 6, 4, 3, 6, 4, 3, 0, 1, 5, 3, 2, 5, 3, 2, 0, 1, 0, 0, 0];
-        this.autoPtValues = [3, 6, 4, 3, 6, 4, 3, 0, 1];
-        this.telePtValues = [5, 3, 2, 5, 3, 2, 0, 1, 2];
+        this.wghtValues = [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0];
+        this.ptValues = [3, 7, 6, 4, 3, 6, 4, 0, 5, 4, 3, 2, 6, 4, 0, 1, 0, 0, 0];
+        this.autoPtValues = [3, 7, 6, 4, 3, 6, 4, 0];
+        this.telePtValues = [5, 4, 3, 2, 6, 4, 0, 1];
         this.autoFilteredPtValues = [6, 4, 3];
         this.teleFilteredPtValues = [5, 3, 2];
         this.defPenPtValues = [1 / 6, 4, 0];
