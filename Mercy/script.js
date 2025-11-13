@@ -11,7 +11,7 @@ let api_url;
 let toggleTBA = false;
 
 // Check if Firebase path exists in local storage
-let availPaths = ["2025wimu"];
+let availPaths = ["2025wimu", "2025txwac"];
 let firebasePath = localStorage.getItem('firebasePath');
 if (firebasePath == "null") {
     let valid = true;

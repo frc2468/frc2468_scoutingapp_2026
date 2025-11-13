@@ -21,7 +21,7 @@ export class DataStructure {
             "Auto L2",
             "Auto L1",
             "Auto Processor",
-            "Auto Low Cone",
+            "Auto Net",
             "Auto Fumbled",
             "Tele L4",
             "Tele L3",
@@ -37,12 +37,12 @@ export class DataStructure {
         ];
         this.avgFilterLabelsAuto = [
             "Mobility",
-            "Auto High Cube",
-            "Auto Mid Cube",
-            "Auto Low Cube",
-            "Auto High Cone",
-            "Auto Mid Cone",
-            "Auto Low Cone",
+            "Auto L4",
+            "Auto L3",
+            "Auto L2",
+            "Auto L1",
+            "Auto Processor",
+            "Auto Net",
             "Auto Fumbled",
         ];
         this.avgFilterLabelsTele = [
@@ -82,7 +82,7 @@ export class DataStructure {
         this.pitscoutLabels = ['Timestamp','Team', 'Scouter', 'Scout Name', 'Drivetrain', 'Robot Weight', 'Number of Motors', 'Motor Type', 'Coding Language', 'Vision Capabilities', 'Vision', 'Auto', 'Auto Climb', 'Endgame Climb', 'Piece Type', 'Manipulator', 'Aluminum Assistance', 'Mech-Controls Issue?', 'Miscellaneous'];
         this.imageLabels = ['Timestamp', 'Team', 'Image of Robot'];
 
-        this.firebasePath = "2025wimu";
+        this.firebasePath = "2025txwac";
         this.firebaseConfig = {
             apiKey: "AIzaSyBvN_v9pz5KFshemssxm-cb8R2vTviGkOs",
             authDomain: "scouting-app-d8a4d.firebaseapp.com",

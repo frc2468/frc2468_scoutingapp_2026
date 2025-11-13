@@ -197,8 +197,8 @@ pageChange.switchEvent("home")
 //=============== HOME ===============
 var matchData = []
 var homeHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout",
-  "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto High Cone", "Auto Mid Cone", "Auto Low Cone", "Auto Fumbled", "Auto Climb",
-  "High Cube", "Mid Cube", "Low Cube", "High Cone", "Mid Cone", "Low Cone", "Fumbled", "Climb", "Park",
+  "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Fumbled",
+  "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "T Fumbled", "Climb",
   "Defense Time", "Penalty Count", "Oof Time");
 
 var homeQataHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", "Climb QATA", "Intake QATA", "QATA");
@@ -448,7 +448,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
   
     //General data: Purely quantitative data, no descriptions or words, only numbers and bools
     let generalSearchData = new AddTable()
-    let generalLabels = ["Match", "Position", "Mobility", "Auto High Cube", "Auto Mid Cube", "Auto Low Cube", "Auto High Cone", "Auto Mid Cone", "Auto Low Cone", "Auto Fumbled", "Auto Climb", "High Cube", "Mid Cube", "Low Cube", "High Cone", "Mid Cone", "Low Cone", "Fumbled"]
+    let generalLabels = ["Match", "Position", "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "Fumbled"]
     generalSearchData.addHeader(generalLabels);
     //gettin each match
     var row = document.createElement("tr");
@@ -466,7 +466,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
   
     //Qualatative data (Qata): Only descriptions/words nvm
     var qataSearchData = new AddTable()
-    let qataLabels = ["Match", "Position", "Scout", "Climb", "Park", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Intake QATA", "QATA"]
+    let qataLabels = ["Match", "Position", "Scout", "Climb", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Intake QATA", "QATA"]
     qataSearchData.addHeader(qataLabels);
     //gettin each match
     for (let i = 0; i < teamData.length; i++) {
@@ -608,7 +608,7 @@ function comptext(team) {
 
   //generates table for data and qata
   var gencomparedata = new AddTable()
-  let genlabels = ["Match", "Position", "Mobility", "Auto High Cube", "Auto Mid Cube", "Auto Low Cube", "Auto High Cone", "Auto Mid Cone", "Auto Low Cone", "Auto Fumbled", "Auto Climb", "High Cube", "Mid Cube", "Low Cube", "High Cone", "Mid Cone", "Low Cone", "Fumbled"]
+  let genlabels = ["Match", "Position", "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "Tele Fumbled"]
   gencomparedata.addHeader(genlabels);
 
   for (let i = 0; i < teamData.length; i++) {
@@ -624,7 +624,7 @@ function comptext(team) {
   dataDiv.appendChild(gencomparedata.table)
 
   var qatacomparedata = new AddTable();
-  let qatalabels = ["Match", "Position", "Scout", "Climb", "Park", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Intake QATA", "QATA"];
+  let qatalabels = ["Match", "Position", "Scout", "Climb", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Intake QATA", "QATA"];
   qatacomparedata.addHeader(qatalabels);
 
   for (let i = 0; i < teamData.length; i++) {
@@ -976,7 +976,7 @@ function displayRankings(data, rankHeadNames) {
     document.getElementById("rank-container").appendChild(rankTable.getTable());
   
     var robotNames = Object.keys(data)
-    rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score","Mobility","Auto High Cube","Auto Mid Cube","Auto Low Cube","Auto High Cone","Auto Mid Cone","Auto Low Cone","Auto Fumbled","Auto Climb","High Cube","Mid Cube","Low Cube","High Cone","Mid Cone","Low Cone","Fumbled","Climb","Defense Time","Penalty Count","Oof Time");
+    rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score","Mobility","Auto L4","Auto L3","Auto L2","Auto L1","Auto Processor","Auto Net","Auto Fumbled","Tele L4","Tele L3","Tele L2","Tele L1","Tele Processor","Tele Net","Fumbled","Climb","Defense Time","Penalty Count","Oof Time");
   var dataLabelsToCalc = rankHeadNames.splice(3);
   //for loop over each robot
   for (var i = 0; i < robotNames.length; i++) {
@@ -1641,20 +1641,19 @@ function calcAverage(robotInfo, potential = 0) {
 
 //=============== SETTINGS ===============
 var settingWghtHeadNames = dataStructure.createDataLabels("Mobility",
-  "Auto High Cube",
-  "Auto Mid Cube",
-  "Auto Low Cube",
-  "Auto High Cone",
-  "Auto Mid Cone",
-  "Auto Low Cone",
+  "Auto L4",
+  "Auto L3",
+  "Auto L2",
+  "Auto L1",
+  "Auto Processor",
+  "Auto Net",
   "Auto Fumbled",
-  "Auto Climb",
-  "High Cube",
-  "Mid Cube",
-  "Low Cube",
-  "High Cone",
-  "Mid Cone",
-  "Low Cone",
+  "Tele L4",
+  "Tele L3",
+  "Tele L2",
+  "Tele L1",
+  "Tele Processor",
+  "Tele Net",
   "Fumbled",
   "Climb",
   "Defense Time",
@@ -1684,20 +1683,19 @@ function getNewWeights() {
   dataStructure.changeWghtValues(newWeights)
   var rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
       "Mobility",
-      "Auto High Cube",
-      "Auto Mid Cube",
-      "Auto Low Cube",
-      "Auto High Cone",
-      "Auto Mid Cone",
-      "Auto Low Cone",
+      "Auto L4",
+      "Auto L3",
+      "Auto L2",
+      "Auto L1",
+      "Auto Processor",
+      "Auto Net",
       "Auto Fumbled",
-      "Auto Climb",
-      "High Cube",
-      "Mid Cube",
-      "Low Cube",
-      "High Cone",
-      "Mid Cone",
-      "Low Cone",
+      "Tele L4",
+      "Tele L3",
+      "Tele L2",
+      "Tele L1",
+      "Tele Processor",
+      "Tele Net",
       "Fumbled",
       "Climb",
       "Defense Time",
@@ -1719,20 +1717,19 @@ function resetWeights() {
   }
   var rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
       "Mobility",
-      "Auto High Cube",
-      "Auto Mid Cube",
-      "Auto Low Cube",
-      "Auto High Cone",
-      "Auto Mid Cone",
-      "Auto Low Cone",
+      "Auto L4",
+      "Auto L3",
+      "Auto L2",
+      "Auto L1",
+      "Auto Processor",
+      "Auto Net",
       "Auto Fumbled",
-      "Auto Climb",
-      "High Cube",
-      "Mid Cube",
-      "Low Cube",
-      "High Cone",
-      "Mid Cone",
-      "Low Cone",
+      "Tele L4",
+      "Tele L3",
+      "Tele L2",
+      "Tele L1",
+      "Tele Processor",
+      "Tele Net",
       "Fumbled",
       "Climb",
       "Defense Time",
