@@ -125,6 +125,13 @@ let qrRefresh = setInterval(()=>{ if(state == "after") updateQr() }, 1000);
 
 
 //code for hotkeys, notes
+document.getElementById("standbyContainer").addEventListener("click", () => {
+    if (state === "standby") {
+        transition(1);   // same as pressing spacebar
+    }
+});
+
+
 window.addEventListener('keydown', function (keystroke) {
     if(keystroke.key == "Alt"){
         keystroke.preventDefault();
@@ -166,7 +173,7 @@ window.addEventListener('keydown', function (keystroke) {
     if(state == "after"){
        updateQr();
     }
-    if(keystroke.key == " " && state == "standby"){
+    if((keystroke.key == " ")&& state == "standby"){
         transition(1)
     }
     for(let i=0; i < uniqueKeys.length; i++){
