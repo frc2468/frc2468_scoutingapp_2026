@@ -7,7 +7,8 @@ import {
 import { Encoder } from '../encoder.js';  // Keep relative paths for local modules
 import { DataStructure } from '../dataStructure.js';
 import { SwitchPage } from "./modules/switchPage.js";
-import Hammer from 'https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js';
+import Hammer from 'hammerjs';
+// import Hammer from 'https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js';
 
 // === Firebase configuration - REPLACE with your actual firebase config ===
 const firebaseConfig = {
