@@ -4,7 +4,7 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   mount: {
-    /* ... */
+    "../Nep2n": "/"
   },
   plugins: [
     /* ... */
@@ -16,6 +16,7 @@ module.exports = {
     openUrl: "Nep2n/index.html"
   },
   buildOptions: {
-    /* ... */
+    out: "../nep2n-build",
+    clean: true
   },
 };

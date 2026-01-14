@@ -4,7 +4,7 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
     mount: {
-      /* ... */
+      "../Mercy": "/"
     },
     plugins: [
       /* ... */
@@ -16,7 +16,8 @@ module.exports = {
       openUrl: "Mercy/index.html"
     },
     buildOptions: {
-      /* ... */
+      out: "../mercy-build",
+      clean: true
     },
   };
   
