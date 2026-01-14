@@ -3,121 +3,111 @@ let settings = {
     "transitionMode": "auto"
   },
   "auto": [
-    //cube cone buttons
+    // Auto Actions
     {
-      "label": "A L4",
-      "trigger": "e", 
+      "label": "A Start Pos",
+      "trigger": "s", 
       "columnStart": 1,
       "columnEnd": 2,
+      "rowStart": 1,
+      "rowEnd": 2,
+      "writeLoc": 0,
+      "writeType": "cycG",
+      "cycGOptions": ["left", "middle", "right"],
+      "writeCycGOptions": 3
+    },
+    {
+      "label": "A Depot",
+      "trigger": "d", 
+      "columnStart": 2,
+      "columnEnd": 3,
       "rowStart": 1,
       "rowEnd": 2,
       "writeLoc": 1,
       "writeType": "int"
     },
     {
-      "label": "A L3",
-      "trigger": "r", 
-      "columnStart": 2,
-      "columnEnd": 3,
+      "label": "A Outpost",
+      "trigger": "f", 
+      "columnStart": 3,
+      "columnEnd": 4,
       "rowStart": 1,
       "rowEnd": 2,
       "writeLoc": 2,
       "writeType": "int"
     },
     {
-      "label": "A L2",
-      "trigger": "d", 
-      "columnStart": 1,
-      "columnEnd": 2,
-      "rowStart": 2,
-      "rowEnd": 3,
+      "label": "A NZ Pickup",
+      "trigger": "g", 
+      "columnStart": 4,
+      "columnEnd": 5,
+      "rowStart": 1,
+      "rowEnd": 2,
       "writeLoc": 3,
       "writeType": "int"
     },
     {
-      "label": "A L1",
-      "trigger": "f", 
-      "columnStart": 2,
-      "columnEnd": 3,
+      "label": "A Dump",
+      "trigger": "h", 
+      "columnStart": 1,
+      "columnEnd": 2,
       "rowStart": 2,
       "rowEnd": 3,
       "writeLoc": 4,
       "writeType": "int"
     },
     {
-      "label": "A Processor",
-      "trigger": "c", 
-      "columnStart": 1,
-      "columnEnd": 2,
-      "rowStart": 3,
-      "rowEnd": 4,
-      "writeLoc": 5,
-      "writeType": "int"
-    },
-    {
-      "label": "A Net",
-      "trigger": "v", 
+      "label": "A Trench",
+      "trigger": "j", 
       "columnStart": 2,
       "columnEnd": 3,
-      "rowStart": 3,
-      "rowEnd": 4,
-      "writeLoc": 6,
-      "writeType": "int"
-    },
-    //cube cone buttons end
-    {
-      "label": "A Fumble",
-      "trigger": "j", 
-      "columnStart": 3,
-      "columnEnd": 5,
-      "rowStart": 1,
-      "rowEnd": 2,
-      "writeLoc": 7,
-      "writeType": "int"
-    },
-    // {
-    //   "label": "A Climb Level",
-    //   "trigger": "l", 
-    //   "columnStart": 3,
-    //   "columnEnd": 4,
-    //   "rowStart": 3,
-    //   "rowEnd": 5,
-    //   "writeLoc": 8,
-    //   "writeType": "cycG",
-    //   "cycGOptions": [0, 8, 12],
-    //   "writeCycGOptions": 3
-    // },
-    {
-      "label": "Oof Time",
-      "trigger": ";", 
-      "columnStart": 4,
-      "columnEnd": 5,
-      "rowStart": 3,
-      "rowEnd": 5,
-      "writeLoc": 18,
-      "writeType": "inc"
+      "rowStart": 2,
+      "rowEnd": 3,
+      "writeLoc": 5,
+      "writeType": "int",
     },
     {
-      "label": "Mobility",
+      "label": "A Shot",
       "trigger": "k", 
       "columnStart": 3,
       "columnEnd": 5,
       "rowStart": 2,
       "rowEnd": 3,
-      "writeLoc": 0,
-      "writeType": "bool"
+      "writeLoc": 6,
+      "writeType": "int"
+    },
+    {
+      "label": "A Climb",
+      "trigger": "l", 
+      "columnStart": 1,
+      "columnEnd": 3,
+      "rowStart": 3,
+      "rowEnd": 5,
+      "writeLoc": 7,
+      "writeType": "cycG",
+      "cycGOptions": [0, 15],
+      "writeCycGOptions": 2
+    },
+    {
+      "label": "Auto Feed",
+      "trigger": "z", 
+      "columnStart": 3,
+      "columnEnd": 5,
+      "rowStart": 3,
+      "rowEnd": 4,
+      "writeLoc": 8,
+      "writeType": "int",
+    },
+    {
+      "label": "Auto Win",
+      "trigger": "m", 
+      "columnStart": 3,
+      "columnEnd": 5,
+      "rowStart": 4,
+      "rowEnd": 5,
+      "writeLoc": 9,
+      "writeType": "bool",
     }
-    // ,
-    // {
-    //   "label": "Defense",
-    //   "trigger": "a", 
-    //   "columnStart": 1,
-    //   "columnEnd": 3,
-    //   "rowStart": 4,
-    //   "rowEnd": 5,
-    //   "writeLoc": 18,
-    //   "writeType": "inc"
-    // }
   ],
 
 
@@ -125,118 +115,128 @@ let settings = {
 
 
   "tele":[
-    //cube cone buttons
     {
-      "label": "T L4",
-      "trigger": "e", 
+      "label": "T Outpost AZ",
+      "trigger": "q", 
       "columnStart": 1,
       "columnEnd": 2,
       "rowStart": 1,
       "rowEnd": 2,
-      "writeLoc": 8,
-      "writeType": "int"
-    },
-    {
-      "label": "T L3",
-      "trigger": "r", 
-      "columnStart": 2,
-      "columnEnd": 3,
-      "rowStart": 1,
-      "rowEnd": 2,
-      "writeLoc": 9,
-      "writeType": "int"
-    },
-    {
-      "label": "T L2",
-      "trigger": "d", 
-      "columnStart": 1,
-      "columnEnd": 2,
-      "rowStart": 2,
-      "rowEnd": 3,
       "writeLoc": 10,
       "writeType": "int"
     },
     {
-      "label": "T L1",
-      "trigger": "f", 
+      "label": "T Pickup Own AZ",
+      "trigger": "w", 
       "columnStart": 2,
       "columnEnd": 3,
-      "rowStart": 2,
-      "rowEnd": 3,
+      "rowStart": 1,
+      "rowEnd": 2,
       "writeLoc": 11,
       "writeType": "int"
     },
     {
-      "label": "T Processor",
-      "trigger": "c", 
-      "columnStart": 1,
-      "columnEnd": 2,
-      "rowStart": 3,
-      "rowEnd": 4,
+      "label": "T Pickup NZ",
+      "trigger": "e", 
+      "columnStart": 3,
+      "columnEnd": 4,
+      "rowStart": 1,
+      "rowEnd": 2,
       "writeLoc": 12,
       "writeType": "int"
     },
     {
-      "label": "T Net",
-      "trigger": "v", 
-      "columnStart": 2,
-      "columnEnd": 3,
-      "rowStart": 3,
-      "rowEnd": 4,
-      "writeLoc": 13,
-      "writeType": "int"
-    },
-    //cube cone buttons end
-    {
-      "label": "T Fumble",
-      "trigger": "j", 
-      "columnStart": 3,
+      "label": "T Pickup Opp AZ",
+      "trigger": "r", 
+      "columnStart": 4,
       "columnEnd": 5,
       "rowStart": 1,
       "rowEnd": 2,
+      "writeLoc": 13,
+      "writeType": "int"
+    },
+    {
+      "label": "T Dump",
+      "trigger": "t", 
+      "columnStart": 1,
+      "columnEnd": 2,
+      "rowStart": 2,
+      "rowEnd": 3,
       "writeLoc": 14,
       "writeType": "int"
     },
     {
-      "label": "Penalty",
-      "trigger": "k", 
-      "columnStart": 3,
-      "columnEnd": 5,
+      "label": "T Trench",
+      "trigger": "y", 
+      "columnStart": 2,
+      "columnEnd": 3,
       "rowStart": 2,
       "rowEnd": 3,
       "writeLoc": 15,
       "writeType": "int"
     },
     {
-      "label": "T Climb Level",
-      "trigger": "l", 
+      "label": "T Shot",
+      "trigger": "u", 
       "columnStart": 3,
-      "columnEnd": 4,
-      "rowStart": 3,
-      "rowEnd": 5,
-      "writeLoc": 16,
-      "writeType": "cycG",
-      "cycGOptions": [0, 2, 6, 12],
-      "writeCycGOptions": 4
-    },
-    {
-      "label": "Oof Time",
-      "trigger": ";", 
-      "columnStart": 4,
       "columnEnd": 5,
-      "rowStart": 3,
-      "rowEnd": 5,
-      "writeLoc": 18,
-      "writeType": "inc"
+      "rowStart": 2,
+      "rowEnd": 3,
+      "writeLoc": 16,
+      "writeType": "int"
     },
     {
       "label": "Defense",
-      "trigger": "s", 
+      "trigger": "d", 
+      "columnStart": 1,
+      "columnEnd": 3,
+      "rowStart": 3,
+      "rowEnd": 4,
+      "writeLoc": 17, 
+      "writeType": "inc"
+    },
+    {
+      "label": "Climb",
+      "trigger": "c", 
       "columnStart": 1,
       "columnEnd": 3,
       "rowStart": 4,
       "rowEnd": 5,
-      "writeLoc": 17, 
+      "writeLoc": 18,
+      "writeType": "cycG",
+      "cycGOptions": [0, 10, 20, 30],
+      "writeCycGOptions": 4
+    },
+    {
+      "label": "T Feed NZ",
+      "trigger": "p", 
+      "columnStart": 3,
+      "columnEnd": 4,
+      "rowStart": 3,
+      "rowEnd": 4,
+      "writeLoc": 19,
+      "writeType": "int",
+      
+    },
+    {
+      "label": "T Feed Opp AZ",
+      "trigger": "a", 
+      "columnStart": 4,
+      "columnEnd": 5,
+      "rowStart": 3,
+      "rowEnd": 4,
+      "writeLoc": 20,
+      "writeType": "int",
+      
+    },
+    {
+      "label": "Oof Time",
+      "trigger": "s", 
+      "columnStart": 3,
+      "columnEnd": 5,
+      "rowStart": 4,
+      "rowEnd": 5,
+      "writeLoc": 21,
       "writeType": "inc"
     }
   ], 
@@ -252,19 +252,19 @@ let settings = {
 
     {
       "label": "Climbing Capabilities?",
-      "writeLoc": 19,
+      "writeLoc": 22,
       "writeType": "str",
       "placeholder": "e.g. write about climb, can balance?, very slow?"
     },
     {
       "label": "Intake?", 
-      "writeLoc": 20, 
+      "writeLoc": 23, 
       "writeType": "str",
       "placeholder": "e.g. speed, ground/shelf?"
     },
     {
       "label": "QATA",
-      "writeLoc": 21,
+      "writeLoc": 24,
       "writeType": "str",
       "placeholder": "e.g. ability place cube/cone, defence, penalties, speed"
     }
@@ -272,25 +272,25 @@ let settings = {
   "start": [
     {
       "label": "Scout ID",
-      "writeLoc": 22,
+      "writeLoc": 25,
       "writeType": "strBegin",
       "placeholder": "your team # + your name"
     },
     {
       "label": "Team Number",
-      "writeLoc": 23,
+      "writeLoc": 26,
       "writeType": "strBegin",
       "placeholder": "# of the team you are scouting"
     },
     {
       "label": "Match Number",
-      "writeLoc": 24,
+      "writeLoc": 27,
       "writeType": "strBegin",
       "placeholder": "current match #"
     },
     {
       "label": "Team Position",
-      "writeLoc": 25,
+      "writeLoc": 28,
       "writeType": "strBegin",
       "placeholder": "1, 2, or 3"
     }
@@ -298,7 +298,7 @@ let settings = {
   
 }
 
-let dataValues = [false,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"","",""];
+let dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,0,0,0,"","",""];
 let dataLabels = [ "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", "Tele L4", "Tele L3", "Tele L2",  "Tele L1", "Tele Processor", "Tele Net", "Fumbled", "Climb", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Link QATA", "QATA"];
 
 // let tempFix = [{

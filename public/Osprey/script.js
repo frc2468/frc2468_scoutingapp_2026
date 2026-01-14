@@ -1,5 +1,5 @@
 //variable declarations
-let state = "init", matchNum, scoutNum, teamNum, teamPos, timer = 150, delay = true, rowContent = [], notesToggled = false, matchInfo = [], allianceColor = "n";
+let state = "init", matchNum, scoutNum, teamNum, teamPos, timer = 160, delay = true, rowContent = [], notesToggled = false, matchInfo = [], allianceColor = "n";
 
 let timeInt = 1000; // Time Interval, SHOULD BE 1000, 10 if speed!!!!!!!
 let testing = false; // DISABLES INTRO PAGE CHECKS IF TRUE
@@ -633,7 +633,7 @@ function generateMainPage(stage){
 
 //defines time length, starts timer 
 function timerStart(i){
-    timer = 150;
+    timer = 160;
     delay = true;
     updateTimer();
     window.timerFunction = setInterval(updateTimer, timeInt)
@@ -645,11 +645,11 @@ function updateTimer(){
         timer--;
     }
     if(settings.imported.transitionMode == "auto"){
-        if (timer == 135 && delay) { //janky implementation of 2 second auto to teleop delay
-            timer = 136; //136??? check delay
+        if (timer == 140 && delay) { //janky implementation of 2 second auto to teleop delay
+            timer = 141; //136??? check delay
             delay = !delay
         }
-        if (timer == 135 && !delay) {
+        if (timer == 140 && !delay) {
             state = "tele"
             transition(2)
         }
@@ -784,6 +784,9 @@ function clickEvt(type, loc, rev = null){
     //after game
     
     if(type == "cyc"){
+        if (dataValues[wLoc] == null) {
+            dataValues[wLoc] = settings.tele[i].cycGOptions[0];
+        }
         if(dataValues[loc]){
             dataValues[loc] = rev;
             for(let i = 0; i < settings.after[0].cycOptions.length; i++){
@@ -976,7 +979,7 @@ function transition(i){
 
 function resetGame(){
     state="init";
-    timer = 150;
+    timer = 160;
     delay = true;
     rowContent = [];
     incArr = [];
@@ -987,7 +990,7 @@ function resetGame(){
     notesToggled = false;
 
     //dataValues = [false, 0, 0, 0, 0, 0, 0, false, null, 0, 0, false, "", false, "", "", ""]
-    dataValues = [false,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"","",""];
+    dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,0,0,0,"","",""];
     //dataLabels = [ "Mobility", "Auto High Cube", "Auto Mid Cube", "Auto Low Cube", "Auto High Cone", "Auto Mid Cone", "Auto Low Cone", "Auto Fumbled", "Auto Climb", "High Cube", "Mid Cube", "Low Cube",  "High Cone", "Mid Cone", "Low Cone", "Fumbled", "Climb", "Park","Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Link QATA", "QATA", "Drivetrain"];
 
     //clearing main page and generating the displaybar

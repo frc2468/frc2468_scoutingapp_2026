@@ -3,9 +3,7 @@ import { initializeApp } from "firebase/app";
 export class DataStructure {
     constructor() {
         this.dataValues = [0,0,"","",
-            false,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,
-            0,0,0,"","",""];
+            0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,0,0,0,"","",""];
         this.dataLabels = ["Match", "Team", "Position", "Scout", 
             "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", 
             "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "T Fumbled", "Climb",
