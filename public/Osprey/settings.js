@@ -199,7 +199,7 @@ let settings = {
       "label": "Climb",
       "trigger": "c", 
       "columnStart": 1,
-      "columnEnd": 3,
+      "columnEnd": 2,
       "rowStart": 4,
       "rowEnd": 5,
       "writeLoc": 18,
@@ -208,13 +208,23 @@ let settings = {
       "writeCycGOptions": 4
     },
     {
+      "label": "Same Rung Climb",
+      "trigger": "b", 
+      "columnStart": 2,
+      "columnEnd": 3,
+      "rowStart": 4,
+      "rowEnd": 5,
+      "writeLoc": 19,
+      "writeType": "bool",
+    },
+    {
       "label": "T Feed NZ",
       "trigger": "p", 
       "columnStart": 3,
       "columnEnd": 4,
       "rowStart": 3,
       "rowEnd": 4,
-      "writeLoc": 19,
+      "writeLoc": 20,
       "writeType": "int",
       
     },
@@ -225,7 +235,7 @@ let settings = {
       "columnEnd": 5,
       "rowStart": 3,
       "rowEnd": 4,
-      "writeLoc": 20,
+      "writeLoc": 21,
       "writeType": "int",
       
     },
@@ -236,7 +246,7 @@ let settings = {
       "columnEnd": 5,
       "rowStart": 4,
       "rowEnd": 5,
-      "writeLoc": 21,
+      "writeLoc": 22,
       "writeType": "inc"
     }
   ], 
@@ -252,19 +262,19 @@ let settings = {
 
     {
       "label": "Estimate Auto Balls Scored",
-      "writeLoc": 22,
+      "writeLoc": 23,
       "writeType": "int",
       "placeholder": "rough estimate"
     },
     {
       "label": "Estimate Tele Balls Scored", 
-      "writeLoc": 23, 
+      "writeLoc": 24, 
       "writeType": "int",
       "placeholder": "rough estimate"
     },
     {
       "label": "Comments",
-      "writeLoc": 24,
+      "writeLoc": 25,
       "writeType": "str",
       "placeholder": "e.g. bad data"
     }
@@ -272,25 +282,25 @@ let settings = {
   "start": [
     {
       "label": "Scout ID",
-      "writeLoc": 25,
+      "writeLoc": 26,
       "writeType": "strBegin",
       "placeholder": "your lunch number"
     },
     {
       "label": "Team Number",
-      "writeLoc": 26,
+      "writeLoc": 27,
       "writeType": "strBegin",
       "placeholder": "# of the team you are scouting"
     },
     {
       "label": "Match Number",
-      "writeLoc": 27,
+      "writeLoc": 28,
       "writeType": "strBegin",
       "placeholder": "current match #"
     },
     {
       "label": "Team Position",
-      "writeLoc": 28,
+      "writeLoc": 29,
       "writeType": "strBegin",
       "placeholder": "1, 2, or 3"
     }
@@ -298,7 +308,7 @@ let settings = {
   
 }
 
-let dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,0,0,0,0,0,""];
+let dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,""];
 let dataLabels = [ "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb", "Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment"];
 
 // let tempFix = [{
