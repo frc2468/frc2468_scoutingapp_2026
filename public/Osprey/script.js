@@ -403,6 +403,28 @@ function generateMainPage(stage){
                     container.appendChild(textbox)
                 }
             }
+            if (settings.after[i].writeType == "int") {
+                const container = document.createElement("div");
+                container.classList.add("textContainer");
+                qataBox.appendChild(container);    
+                const labelText = document.createElement("div");
+                labelText.classList.add("qataLabel");
+                labelText.innerHTML = settings.after[i].label;
+                container.appendChild(labelText);
+
+                const textbox = document.createElement("input");
+                textbox.type = "number";
+                textbox.classList.add("afterTextBox");
+                textbox.setAttribute("id", "str" + settings.after[i].writeLoc);
+                textbox.setAttribute("placeholder", settings.after[i].placeholder || "");
+                // initialize from dataValues if present
+                if (dataValues[settings.after[i].writeLoc] !== undefined && dataValues[settings.after[i].writeLoc] !== null) {
+                    textbox.value = dataValues[settings.after[i].writeLoc];
+                } else {
+                    textbox.value = "";
+                }
+                container.appendChild(textbox);
+            }
             
         }
 
@@ -690,17 +712,20 @@ function updateQr(){
                 dataValues[i] = 0;
             }
         }
-        else if(typeof dataValues[i] == "string"){ 
-            console.log("index: " + i);
-
-            let textValue = document.getElementById(("str" + i)).value;
-
-            textValue = textValue.replace(/\n/g, ' ').replace(/\,/g, ';');
-            if (textValue.length == 0) {
-                dataValues[i] = "None";
+        else if (typeof dataValues[i] === "string") {
+            const el = document.getElementById("str" + i);
+            if (el) {
+                let textValue = el.value || "";
+                textValue = textValue.replace(/\n/g, ' ').replace(/,/g, ';');
+                dataValues[i] = textValue.length === 0 ? "None" : textValue;
             } else {
-                dataValues[i] = textValue;
+                // element not present — keep existing value or set a safe default
+                if (!dataValues[i] || dataValues[i].length === 0) {
+                    dataValues[i] = "None";
+                }
             }
+            continue;
+    
         }
         
     }    //console.log(dataValues)
@@ -990,7 +1015,7 @@ function resetGame(){
     notesToggled = false;
 
     //dataValues = [false, 0, 0, 0, 0, 0, 0, false, null, 0, 0, false, "", false, "", "", ""]
-    dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,0,0,0,"","",""];
+    dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,0,0,0,0,0,""];
     //dataLabels = [ "Mobility", "Auto High Cube", "Auto Mid Cube", "Auto Low Cube", "Auto High Cone", "Auto Mid Cone", "Auto Low Cone", "Auto Fumbled", "Auto Climb", "High Cube", "Mid Cube", "Low Cube",  "High Cone", "Mid Cone", "Low Cone", "Fumbled", "Climb", "Park","Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Link QATA", "QATA", "Drivetrain"];
 
     //clearing main page and generating the displaybar

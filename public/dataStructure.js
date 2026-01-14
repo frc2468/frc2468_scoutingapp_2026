@@ -5,13 +5,11 @@ export class DataStructure {
         this.dataValues = [0,0,"","",
             0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,0,0,0,"","",""];
         this.dataLabels = ["Match", "Team", "Position", "Scout", 
-            "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", 
-            "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "T Fumbled", "Climb",
-            "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Intake QATA", "QATA"];
+         "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb", "Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment"];
         this.dataTypes  = ["number", "number", "string", "string",
-            "number", "number", "number", "number", "number", "number", "number", "number", "number",
+            "string", "number", "number", "number", "number", "number", "number", "number", "number",
             "number", "number", "number", "number", "number", "number", "number", 
-            "number", "number", "number", "string", "string", "string"];            
+            "number", "number", "number", "number", "number", "number", "number", "number","string"];            
         this.avgFilterLabels=[
             "Mobility",
             "Auto L4",

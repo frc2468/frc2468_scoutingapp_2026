@@ -116,7 +116,7 @@ let settings = {
 
   "tele":[
     {
-      "label": "T Outpost AZ",
+      "label": "T Outpost Pickup",
       "trigger": "q", 
       "columnStart": 1,
       "columnEnd": 2,
@@ -251,22 +251,22 @@ let settings = {
     // },
 
     {
-      "label": "Climbing Capabilities?",
+      "label": "Estimate Auto Balls Scored",
       "writeLoc": 22,
-      "writeType": "str",
-      "placeholder": "e.g. write about climb, can balance?, very slow?"
+      "writeType": "int",
+      "placeholder": "rough estimate"
     },
     {
-      "label": "Intake?", 
+      "label": "Estimate Tele Balls Scored", 
       "writeLoc": 23, 
-      "writeType": "str",
-      "placeholder": "e.g. speed, ground/shelf?"
+      "writeType": "int",
+      "placeholder": "rough estimate"
     },
     {
-      "label": "QATA",
+      "label": "Comments",
       "writeLoc": 24,
       "writeType": "str",
-      "placeholder": "e.g. ability place cube/cone, defence, penalties, speed"
+      "placeholder": "e.g. bad data"
     }
   ],
   "start": [
@@ -274,7 +274,7 @@ let settings = {
       "label": "Scout ID",
       "writeLoc": 25,
       "writeType": "strBegin",
-      "placeholder": "your team # + your name"
+      "placeholder": "your lunch number"
     },
     {
       "label": "Team Number",
@@ -298,8 +298,8 @@ let settings = {
   
 }
 
-let dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,0,0,0,"","",""];
-let dataLabels = [ "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", "Tele L4", "Tele L3", "Tele L2",  "Tele L1", "Tele Processor", "Tele Net", "Fumbled", "Climb", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Link QATA", "QATA"];
+let dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,0,0,0,0,0,""];
+let dataLabels = [ "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb", "Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment"];
 
 // let tempFix = [{
 //   "label": "Attempted Climb",

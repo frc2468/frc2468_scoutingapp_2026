@@ -10,7 +10,10 @@
     "nep2n": "snowpack dev --config config/Nep2n.config.js",
     "osprey": "snowpack dev --config config/Osprey.config.js",
     "beluga": "snowpack dev --config config/Beluga.config.js",
-    "build": "snowpack build"
+    "build": "snowpack build",
+    "build:mercy": "snowpack build --config config/Mercy.config.js",
+    "build:nep2n": "snowpack build --config config/Nep2n.config.js",
+    "build:osprey": "snowpack build --config config/Osprey.config.js"
   },
   "repository": {
     "type": "git",
