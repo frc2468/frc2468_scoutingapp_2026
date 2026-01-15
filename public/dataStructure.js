@@ -3,63 +3,70 @@ import { initializeApp } from "firebase/app";
 export class DataStructure {
     constructor() {
         this.dataValues = [0,0,"","",
-            0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,0,0,0,"","",""];
+            "middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,""];
         this.dataLabels = ["Match", "Team", "Position", "Scout", 
-         "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb", "Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment"];
+         "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment"];
         this.dataTypes  = ["number", "number", "string", "string",
             "string", "number", "number", "number", "number", "number", "number", "number", "number",
             "number", "number", "number", "number", "number", "number", "number", 
-            "number", "number", "number", "number", "number", "number", "number", "number","string"];            
-        this.avgFilterLabels=[
-            "Mobility",
-            "Auto L4",
-            "Auto L3",
-            "Auto L2",
-            "Auto L1",
-            "Auto Processor",
-            "Auto Net",
-            "Auto Fumbled",
-            "Tele L4",
-            "Tele L3",
-            "Tele L2",
-            "Tele L1",
-            "Tele Processor",
-            "Tele Net",
-            "Fumbled",
-            "Climb", 
-            "Defense Time",
-            "Penalty Count",
-            "Oof Time"
+            "number", "number", "number", "number","number", "number", "number", "number", "number","string"];            
+        this.avgFilterLabels=[ 
+            "Auto Depot Pickup",
+            "Auto Outpost Pickup",
+            "Auto NZ Pickup",
+            "Auto Dump",
+            "Auto Trench",
+            "Auto Shot",
+            "Auto Climb",
+            "Auto Feed",
+            "Auto Win",
+            "Tele Outpost Pickup",
+            "Tele Pickup Own AZ",
+            "Tele Pickup NZ",
+            "Tele Feed Opp AZ",
+            "Tele Bump",
+            "Tele Trench",
+            "Tele Shot",
+            "Tele Defense",
+            "Tele Climb",
+            "Tele Climb Buddy",
+            "Tele Feed NZ", 
+            "Tele Feed Opp AZ", 
+            "Oof Time", 
+            "Estimate Auto", 
+            "Estimate Tele"
         ];
         this.avgFilterLabelsAuto = [
-            "Mobility",
-            "Auto L4",
-            "Auto L3",
-            "Auto L2",
-            "Auto L1",
-            "Auto Processor",
-            "Auto Net",
-            "Auto Fumbled",
+           "Auto Depot Pickup",
+            "Auto Outpost Pickup",
+            "Auto NZ Pickup",
+            "Auto Dump",
+            "Auto Trench",
+            "Auto Shot",
+            "Auto Climb",
+            "Auto Feed",
+            "Auto Win"
         ];
         this.avgFilterLabelsTele = [
-            "Tele L4",
-            "Tele L3",
-            "Tele L2",
-            "Tele L1",
-            "Tele Processor",
-            "Tele Net",
-            "Fumbled",
-            "Climb", 
+           "Tele Outpost Pickup",
+            "Tele Pickup Own AZ",
+            "Tele Pickup NZ",
+            "Tele Feed Opp AZ",
+            "Tele Bump",
+            "Tele Trench",
+            "Tele Shot",
+            "Tele Feed NZ", 
+            "Tele Feed Opp AZ"
         ];
         this.avgFilterLabelsDefPen = [
-            "Defense Time",
-            "Penalty Count",
+            "Tele Defense",
             "Oof Time"
         ];
         this.spiderChartLabels = [
-            "Auto Points", "Tele Coral", "Tele Algae", "Tele Accuracy", "Endgame Points", "Defense Time"
+            "Auto Points", "Tele Points", "Endgame Points", "Defense Time"
         ];
 
+// Needs to be changed as of 1/14
         this.wghtValues = [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0];
         this.ptValues = [3, 7, 6, 4, 3, 6, 4, 0, 5, 4, 3, 2, 6, 4, 0, 1, 0, 0, 0];
         this.autoPtValues = [3, 7, 6, 4, 3, 6, 4, 0];
