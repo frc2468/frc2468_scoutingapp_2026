@@ -711,7 +711,13 @@ function updateQr(){
             else if(!dataValues[i]){
                 dataValues[i] = 0;
             }
+        } else if (typeof dataValues[i] === "number") {
+            const el = document.getElementById("str" + i);
+            if (el) {
+                dataValues[i] = el.value === "" ? 0 : Number(el.value);
+            }
         }
+
         else if (typeof dataValues[i] === "string") {
             const el = document.getElementById("str" + i);
             if (el) {

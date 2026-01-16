@@ -4,7 +4,7 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   mount: {
-    "../Nep2n": "/"
+    // "../Nep2n": "/"
   },
   plugins: [
     /* ... */
