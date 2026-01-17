@@ -28,6 +28,7 @@ const db = getDatabase(app);
 // Your existing code with some adjustments:
 const encoder = new Encoder();
 const dataStructure = new DataStructure();
+const types = dataStructure.getDataTypes();
 // Remove: const db = dataStructure.getFireBase();  // We already have db above
 
 let eventName;
@@ -35,7 +36,7 @@ let api_url;
 let toggleTBA = false;
 
 // Check if Firebase path exists in local storage
-let availPaths = ["2025wimu", "2025txwac"];
+let availPaths = ["2025txcmp1"];
 let firebasePath = localStorage.getItem('firebasePath');
 if (firebasePath == "null" || !firebasePath) {
   let valid = true;
@@ -75,7 +76,7 @@ if (firebasePath == "null" || !firebasePath) {
   localStorage.setItem('firebasePath', userInput);
 }
 
-api_url = "https://www.thebluealliance.com/api/v3/event/" + eventName + "/matches?X-TBA-Auth-Key=vyLPDCJ6TJZgpdVmZkszbUI65Bdz4eqjYIEm4KjCAOENr4WXCyn1oMOHi5bFW2er";
+api_url = "https://www.thebluealliance.com/api/v3/event/" + eventName + "/matches?X-TBA-Auth-Key=0Xn1dsjgvAYVOlBYPy9N3Fe4hA8sxyaO3SIRvikRsUchtyAqY4vVLAZHpHmVwGR6";
 console.log("success");
 
 var netStatus;
@@ -163,10 +164,14 @@ function uploadData() {
       document.getElementById("status").innerHTML += `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Position<br>`;
       continue;
     }
+    if(["right", "middle", "left"].indexOf(data[4]) === -1){
+      document.getElementById("status").innerHTML += `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Starting Position of ${data[4]}<br>`;
+      continue;
+    }
     let invalidQualitative = "";
     let validQualitative = true;
-    for(let j=4; j<23; j++){
-      if(!/^\d+$/.test(data[j])){
+    for(let j=0; j<30; j++){
+      if(!/^\d+$/.test(data[j]) && types[j]=="number"){
         validQualitative = false;
         invalidQualitative += `index ${j+1}, with value ${data[j]}, or ${dataStructure.dataLabels[j]}<br>`;
       }
@@ -185,7 +190,7 @@ function uploadData() {
   for(var i=0;i<sorted_data.length;i++){
     var data = sorted_data[i];
     var formattedData = encoder.rawDataToFormattedData(data, dataStructure.dataLabels);
-    var uploadStatus = encoder.uploadFormattedData(db, formattedData, dataStructure);
+    var uploadStatus = encoder.uploadFormattedData(db, formattedData, dataStructure); 
     if(uploadStatus === true){
       document.getElementById("status").innerHTML += `Successful Upload for ${formattedData["Match"]}-${formattedData["Position"]}-${formattedData["Scout"]}<br>`;
     } else{
