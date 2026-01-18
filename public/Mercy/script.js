@@ -26,7 +26,7 @@ const encoder = new Encoder();
 const dataStructure = new DataStructure();
 
 let eventName;
-let api_url;
+//let api_url;
 let toggleTBA = false;
 //let availPaths = ["2025wimu", "2025txwac"];
 let availPaths = ["2025txcpl"];
@@ -49,18 +49,17 @@ if (userInput.includes("practice")) toggleTBA = true;
 dataStructure.setFirebasePath("Events/" + userInput + "/");
 eventName = userInput;
 localStorage.setItem('firebasePath', userInput);
+//api_url = `https://www.thebluealliance.com/api/v3/event/${eventName}/matches?X-TBA-Auth-Key=vyLPDCJ6TJZgpdVmZkszbUI65Bdz4eqjYIEm4KjCAOENr4WXCyn1oMOHi5bFW2er`;
 
-api_url = `https://www.thebluealliance.com/api/v3/event/${eventName}/matches?X-TBA-Auth-Key=vyLPDCJ6TJZgpdVmZkszbUI65Bdz4eqjYIEm4KjCAOENr4WXCyn1oMOHi5bFW2er`;
-
-var netStatus;
-let inputs = 0;
+let netStatus;
+//let inputs = 0; NOT BEING USED
 let pageChange = new SwitchPage();
 document.querySelectorAll(".nav-container").forEach((el) => {
   el.addEventListener("click", () => {
     pageChange.switchEvent(el.getAttribute("name"));
   });
 });
-
+/*
 document.addEventListener("keydown", (e) => {
   if (e.key === "Tab") {
     e.preventDefault();
@@ -68,7 +67,7 @@ document.addEventListener("keydown", (e) => {
     pageChange.toggleState = !pageChange.toggleState;
   }
 });
-
+*/
 pageChange.switchEvent("upload");
 
 let hammer = new Hammer(document.body);
@@ -95,24 +94,22 @@ function uploadData() {
   }
 
   let rows = all_data.split(/\n/);
-  let sorted_data = [];
+  //let sorted_data = [];
 
   const labels = dataStructure.getDataLabels();
   const types = dataStructure.getDataTypes();
+//I CHANGE THE WAY WE SPLIT:
+  for (let row of rows) {
+    if (!row.trim) continue;
 
-  for (let i = 0; i < rows.length; i++) {
-    if (rows[i] === "") continue;
-
-    let data = rows[i].split(",").map(v => v.trim());
-
-    if (data[0].length < 2) data[0] = "0" + data[0];
+    let data = row.split(",").map(v => v.trim());
 
     if (data.length !== labels.length) {
       document.getElementById("status").innerHTML +=
           `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Length<br>`;
       continue;
     }
-
+/* TO MUCH OF A HARD CODE, SO I REWROTE IT
     if (!/^\d+$/.test(data[0])) {
       document.getElementById("status").innerHTML +=
           `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Match<br>`;
@@ -172,7 +169,23 @@ function uploadData() {
   }
 }
 
+ */
+    let formatted = encoder.rawDataToFormattedData(data, labels);
+    try {
+      const path = dataStructure.getPath("Matches");
+      const key = `${formatted.Match}-${formatted.Position}-${formatted.Scout}`;
+      set(child(ref(db, path), key), formatted);
+      document.getElementById("status").innerHTML +=
+          `Successful Upload for ${key}<br>`;
+    } catch (err) {
+      document.getElementById("status").innerHTML +=
+          `Failed Upload for ${formatted.Match}: ${err.message}<br>`;
+    }
+  }
+}
+
 document.getElementById("button").addEventListener("click", uploadData);
+/*
 document.getElementById("download").addEventListener("click", () => {
   let cache = localStorage.getItem("dataCache");
   if (!cache) return;
@@ -184,11 +197,10 @@ document.getElementById("download").addEventListener("click", () => {
   a.click();
   document.body.removeChild(a);
 });
-
 document.getElementById("cleardown").addEventListener("click", () => {
   localStorage.setItem("dataCache", "");
 });
-
+*/
 function internetOnline() {
   netStatus = true;
   document.getElementById("wifiON").style.display = "block";
