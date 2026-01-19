@@ -19,11 +19,17 @@ jobs:
         with:
           node-version: 22
 
+      - name: change directory
+      - run: cd public
+
       - name: Install dependencies
         run: npm install
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
+
+      - name: change directory for deploy
+        run: cd ..
 
       - name: Deploy to Firebase
         run: firebase deploy
