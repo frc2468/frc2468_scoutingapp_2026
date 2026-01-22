@@ -52,7 +52,7 @@ localStorage.setItem('firebasePath', userInput);
 api_url = `https://www.thebluealliance.com/api/v3/event/${eventName}/matches?X-TBA-Auth-Key=vyLPDCJ6TJZgpdVmZkszbUI65Bdz4eqjYIEm4KjCAOENr4WXCyn1oMOHi5bFW2er`;
 
 let netStatus;
-//let inputs = 0; NOT BEING USED
+let inputs = 0; //NOT BEING USED //nvm, it is being used to count the times someone types enter for some reason..?? (O-O!)
 let pageChange = new SwitchPage();
 document.querySelectorAll(".nav-container").forEach((el) => {
   el.addEventListener("click", () => {
@@ -107,7 +107,7 @@ function uploadData() {
 
     if (data.length !== labels.length) {
       document.getElementById("status").innerHTML +=
-          `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Length<br> Length should be ${Object.keys(dataStructure.getDataTypes()).length} but is ${Object.keys(data).length}`;
+          `Failed Upload for ${data[labels.indexOf("Match")]}-${data[labels.indexOf("Position")]}-${data[labels.indexOf("Team")]}: Invalid Length<br> Length should be ${Object.keys(dataStructure.getDataTypes()).length} but is ${Object.keys(data).length}`;
       continue;
     }
 /* TO MUCH OF A HARD CODE, SO I REWROTE IT
@@ -174,19 +174,35 @@ function uploadData() {
     
 let formatted = encoder.rawDataToFormattedData(data, labels);  
   try {
-    //checks if data has right types
+    //data qual check
     var i =0;
     var broke = false;
+    //loops through to check types
       for(var a in Object.keys(data))
       {
         if((typeof(dataStructure.getDataValues()[i])=='string')?false:!/^\d+$/.test(data[i]))
           {
             document.getElementById("status").innerHTML +=
-              `Data type incorrect at index ${i} for type should be a ${typeof(dataStructure.getDataValues()[i])}, but is a ${/^\d+$/.test(data[i])?'number':'string'} <br><br>`;
+              `Failed Upload for ${data[labels.indexOf("Match")]}-${data[labels.indexOf("Position")]}-${data[labels.indexOf("Team")]}: index ${i}: type should be a ${typeof(dataStructure.getDataValues()[i])}, but is a ${/^\d+$/.test(data[i])?'number':'string'} <br><br>`;
             broke = true;
           }
           i+=1;
       }
+      //check position is formated correctly
+      if(["b1","b2","b3","r1","r2","r3"].indexOf(data[labels.indexOf("Position")])==-1)
+      {
+        document.getElementById("status").innerHTML +=
+            `Failed Upload for ${data[labels.indexOf("Match")]}-${data[labels.indexOf("Position")]}-${data[labels.indexOf("Team")]}: index ${labels.indexOf("Position")} (Position), value "${data[labels.indexOf("Position")]}" is not a valid formatting<br><br>`;
+        broke = true;
+      }
+      //check scout is formatted correctly (is ID of five numbers)
+      if(!/^\d+$/.test(data[labels.indexOf("Scout")])||data[labels.indexOf("Scout")].length!=5)
+      {
+        document.getElementById("status").innerHTML +=
+            `Failed Upload for ${data[labels.indexOf("Match")]}-${data[labels.indexOf("Position")]}-${data[labels.indexOf("Team")]}: index ${labels.indexOf("Scout")} (Scout), value "${data[labels.indexOf("Scout")]}" is not a valid formatting<br><br>`;
+        broke = true;
+      }
+
       if(!broke)
       {
         const path = dataStructure.getPath("Matches");
