@@ -172,6 +172,34 @@ function uploadData() {
  */
     let formatted = encoder.rawDataToFormattedData(data, labels);
     try {
+      let invalid = "";
+      let valid = true;
+
+      for (let j = 0; j < data.length; j++) {
+
+        // number validation
+        if (types[j] === "number") {
+          if (!/^\d+$/.test(data[j])) {
+            valid = false;
+            invalid += `index ${j + 1} (${labels[j]}), value "${data[j]}" is not a number<br>`;
+          }
+        }
+
+        // string validation
+        if (types[j] === "string") {
+          if (data[j].trim() === "" || /^\d+$/.test(data[j])) {
+            valid = false;
+            invalid += `index ${j + 1} (${labels[j]}), value "${data[j]}" is not a string<br>`;
+          }
+        }
+
+      }
+
+      if (!valid) {
+        document.getElementById("status").innerHTML +=
+            `Failed Upload for ${data[0]}-${data[2]}-${data[3]}:<br>${invalid}<br>`;
+        continue;
+      }
       const path = dataStructure.getPath("Matches");
       const key = `${formatted.Match}-${formatted.Position}-${formatted.Scout}`;
       set(child(ref(db, path), key), formatted);
@@ -263,6 +291,7 @@ textBox.addEventListener('keydown', (event) => {
 
 function clear(){
   document.getElementById('input').value = '';
+  let inputs;
   inputs = 0;
 }
 
