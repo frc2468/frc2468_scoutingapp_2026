@@ -956,6 +956,17 @@ body{
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
   }
+
+  .afterPageStringInputs {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 0; 
+    overflow: auto;
+  }
+  
+  
+
   
 #reset {
     position: fixed;
