@@ -107,7 +107,11 @@ function uploadData() {
 
     if (data.length !== labels.length) {
       document.getElementById("status").innerHTML +=
+<<<<<<< HEAD
           `Failed Upload for ${data[labels.indexOf("Match")]}-${data[labels.indexOf("Position")]}-${data[labels.indexOf("Team")]}: Invalid Length<br> Length should be ${Object.keys(dataStructure.getDataTypes()).length} but is ${Object.keys(data).length}`;
+=======
+          `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Length<br>`;
+>>>>>>> 8e2b6741d72a5219489268be85409523acee8c8e
       continue;
     }
 /* TO MUCH OF A HARD CODE, SO I REWROTE IT
@@ -171,6 +175,7 @@ function uploadData() {
 }
 
  */
+<<<<<<< HEAD
     
 let formatted = encoder.rawDataToFormattedData(data, labels);  
   try {
@@ -185,9 +190,33 @@ let formatted = encoder.rawDataToFormattedData(data, labels);
             document.getElementById("status").innerHTML +=
               `Failed Upload for ${data[labels.indexOf("Match")]}-${data[labels.indexOf("Position")]}-${data[labels.indexOf("Team")]}: index ${i}: type should be a ${typeof(dataStructure.getDataValues()[i])}, but is a ${/^\d+$/.test(data[i])?'number':'string'} <br><br>`;
             broke = true;
+=======
+    let formatted = encoder.rawDataToFormattedData(data, labels);
+    try {
+      let invalid = "";
+      let valid = true;
+
+      for (let j = 0; j < data.length; j++) {
+
+        // number validation
+        if (types[j] === "number") {
+          if (!/^\d+$/.test(data[j])) {
+            valid = false;
+            invalid += `index ${j + 1} (${labels[j]}), value "${data[j]}" is not a number<br>`;
+>>>>>>> 8e2b6741d72a5219489268be85409523acee8c8e
           }
-          i+=1;
+        }
+
+        // string validation
+        if (types[j] === "string") {
+          if (data[j].trim() === "" || /^\d+$/.test(data[j])) {
+            valid = false;
+            invalid += `index ${j + 1} (${labels[j]}), value "${data[j]}" is not a string<br>`;
+          }
+        }
+
       }
+<<<<<<< HEAD
       //check position is formated correctly
       if(["b1","b2","b3","r1","r2","r3"].indexOf(data[labels.indexOf("Position")])==-1)
       {
@@ -208,12 +237,22 @@ let formatted = encoder.rawDataToFormattedData(data, labels);
         const path = dataStructure.getPath("Matches");
         const key = `${formatted.Match}-${formatted.Position}-${formatted.Scout}`;
         set(child(ref(db, path), key), formatted);
+=======
+
+      if (!valid) {
+>>>>>>> 8e2b6741d72a5219489268be85409523acee8c8e
         document.getElementById("status").innerHTML +=
-            `Successful Upload for ${key}<br>`;
+            `Failed Upload for ${data[0]}-${data[2]}-${data[3]}:<br>${invalid}<br>`;
+        continue;
       }
+      const path = dataStructure.getPath("Matches");
+      const key = `${formatted.Match}-${formatted.Position}-${formatted.Scout}`;
+      set(child(ref(db, path), key), formatted);
+      document.getElementById("status").innerHTML +=
+          `Successful Upload for ${key}<br>`;
     } catch (err) {
       document.getElementById("status").innerHTML +=
-          err;
+          `Failed Upload for ${formatted.Match}: ${err.message}<br>`;
     }
   }
 }
@@ -297,6 +336,7 @@ textBox.addEventListener('keydown', (event) => {
 
 function clear(){
   document.getElementById('input').value = '';
+  let inputs;
   inputs = 0;
 }
 
