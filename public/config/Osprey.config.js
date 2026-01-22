@@ -13,7 +13,7 @@ module.exports = {
     /* ... */
   },
   devOptions: {
-    openUrl: "Osprey/index.html"
+    openUrl: "osprey/index.html"
   },
   buildOptions: {
     /* ... */

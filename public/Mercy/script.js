@@ -177,25 +177,49 @@ function uploadData() {
       let valid = true;
 
       for (let j = 0; j < data.length; j++) {
-
-        // number validation
-        if (types[j] === "number") {
-          if (!/^\d+$/.test(data[j])) {
+        if (j === 0 || j === 1 || j === 2 || j === 4) {
+          if (!/^\d+$/.test(data[0])) {
             valid = false;
-            invalid += `index ${j + 1} (${labels[j]}), value "${data[j]}" is not a number<br>`;
+            document.getElementById("status").innerHTML +=
+                `Invalid Match for ${data[0]}-${data[2]}-${data[3]}<br>`;
+            break;
           }
-        }
-
-        // string validation
-        if (types[j] === "string") {
-          if (data[j].trim() === "" || /^\d+$/.test(data[j])) {
+          if (!/^\d+$/.test(data[1]) || data[1].length > 4) {
             valid = false;
-            invalid += `index ${j + 1} (${labels[j]}), value "${data[j]}" is not a string<br>`;
+            document.getElementById("status").innerHTML +=
+                `Invalid Team for ${data[0]}-${data[2]}-${data[3]}<br>`;
+            break;
           }
-        }
+          if (!["b1","b2","b3","r1","r2","r3"].includes(data[2])) {
+            valid = false;
+            document.getElementById("status").innerHTML +=
+                `Invalid Position for ${data[0]}-${data[2]}-${data[3]}<br> Please write b1, b2, b3, r1, r2, r3<br>`;
+            break;
+          }
+          if (['right', 'left', 'middle'].indexOf(data[4]) === -1) {
+            valid = false;
+            document.getElementById("status").innerHTML +=
+                `Invalid StartingPosition for ${data[0]}-${data[2]}-${data[3]}<br> Please write middle, left, right<br>`;
+            break;
+          }
+        } else {
+          // number validation
+          if (types[j] === "number") {
+            if (!/^\d+$/.test(data[j])) {
+              valid = false;
+              invalid += `index ${j + 1} (${labels[j]}), value "${data[j]}" is not a number<br>`;
+            }
+          }
+          // string validation
+          if (types[j] === "string") {
+            if (data[j].trim() === "" || /^\d+$/.test(data[j])) {
+              valid = false;
+              invalid += `index ${j + 1} (${labels[j]}), value "${data[j]}" is not a string<br>`;
+            }
+          }
 
+        }
       }
-
       if (!valid) {
         document.getElementById("status").innerHTML +=
             `Failed Upload for ${data[0]}-${data[2]}-${data[3]}:<br>${invalid}<br>`;
