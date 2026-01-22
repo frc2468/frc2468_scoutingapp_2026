@@ -92,6 +92,7 @@ function uploadData() {
         "Empty Push, Upload Not Registered";
     return;
   }
+  all_data = all_data.replace(/[\n\r]+/g, '');
 
   let rows = all_data.split(/\n/);
   //let sorted_data = [];
