@@ -1124,6 +1124,7 @@ function abortMatch() {
     }
 }
 
+// broken
 function fillMissingDefaults() {
     for (let sectionName in settings) {
         let section = settings[sectionName];
