@@ -1057,6 +1057,9 @@ function resetGame(){
     displayBar.appendChild(displayTeam);
 
     mainPage.innerHTML += '<div id="reset" onclick="abortMatch()">Abort</div>';
+    mainPage.innerHTML += '<div id="endMatch" onclick="endMatchEarly()">End Early</div>';
+    console.log('endmatch element:', document.getElementById('endMatch'));
+
     document.getElementById("mainPage").style.display = "none";
 
     document.getElementById("initPage").style.display = "flex";
@@ -1120,6 +1123,54 @@ function abortMatch() {
         return;
     }
 }
+
+function fillMissingDefaults() {
+    for (let sectionName in settings) {
+        let section = settings[sectionName];
+        if (!Array.isArray(section)) continue;
+
+        for (let item of section) {
+            let loc = item.writeLoc;
+            if (dataValues[loc] !== null && dataValues[loc] !== undefined) continue;
+
+            switch (item.writeType) {
+                case "int":
+                case "inc":
+                    dataValues[loc] = 0;
+                    break;
+                case "bool":
+                    dataValues[loc] = false;
+                    break;
+                case "cyc":
+                case "cycG":
+                    dataValues[loc] =
+                        item.cycOptions?.[0] ??
+                        item.cycGOptions?.[0] ??
+                        "None";
+                    break;
+                case "str":
+                    dataValues[loc] = "";
+                    break;
+            }
+        }
+    }
+}
+
+
+function endMatchEarly() {
+    if (state !== "auto" && state !== "tele") return;
+
+    if (!confirm("End match and go to After page?")) return;
+
+    if (window.timerFunction) {
+    clearInterval(timerFunction);
+    }
+
+    fillMissingDefaults();
+    state = "after";
+    transition(4);
+}
+
 
 document.getElementById("customStyleBtn").addEventListener("click", ()=>{
     let arr = document.getElementsByClassName("appearanceForm");
