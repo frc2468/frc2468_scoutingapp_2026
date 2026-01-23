@@ -660,6 +660,7 @@ function timerStart(i){
     updateTimer();
     window.timerFunction = setInterval(updateTimer, timeInt)
     console.log("timer started")
+    console.log(delay)
 }
 function updateTimer(){
     document.getElementById("display-timer").innerHTML = timer;
@@ -667,8 +668,9 @@ function updateTimer(){
         timer--;
     }
     if(settings.imported.transitionMode == "auto"){
+        console.log(delay)
         if (timer == 140 && delay) { //janky implementation of 2 second auto to teleop delay
-            timer = 141; //136??? check delay
+            timer = 143; //136??? check delay
             delay = !delay
         }
         if (timer == 140 && !delay) {
