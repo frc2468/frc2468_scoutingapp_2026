@@ -115,8 +115,9 @@ let settings = {
 
 
   "tele":[
+    // simplify pickup?
     {
-      "label": "T Outpost Pickup",
+      "label": "T P Outpost",
       "trigger": "q", 
       "columnStart": 1,
       "columnEnd": 2,
@@ -126,7 +127,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "T Pickup Own AZ",
+      "label": "T P Own AZ",
       "trigger": "w", 
       "columnStart": 2,
       "columnEnd": 3,
@@ -136,7 +137,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "T Pickup NZ",
+      "label": "T P NZ",
       "trigger": "e", 
       "columnStart": 3,
       "columnEnd": 4,
@@ -146,7 +147,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "T Pickup Opp AZ",
+      "label": "T P Opp AZ",
       "trigger": "r", 
       "columnStart": 4,
       "columnEnd": 5,
@@ -156,7 +157,7 @@ let settings = {
       "writeType": "int"
     },
     {
-      "label": "T Dump",
+      "label": "T Bump",
       "trigger": "t", 
       "columnStart": 1,
       "columnEnd": 2,
@@ -208,7 +209,7 @@ let settings = {
       "writeCycGOptions": 4
     },
     {
-      "label": "Same Rung Climb",
+      "label": "Same Rung",
       "trigger": "b", 
       "columnStart": 2,
       "columnEnd": 3,
@@ -218,7 +219,7 @@ let settings = {
       "writeType": "bool",
     },
     {
-      "label": "T Feed NZ",
+      "label": "T F NZ",
       "trigger": "p", 
       "columnStart": 3,
       "columnEnd": 4,
@@ -229,7 +230,7 @@ let settings = {
       
     },
     {
-      "label": "T Feed Opp AZ",
+      "label": "T F Opp AZ",
       "trigger": "a", 
       "columnStart": 4,
       "columnEnd": 5,
