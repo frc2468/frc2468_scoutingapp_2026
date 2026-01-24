@@ -1,40 +1,55 @@
 import { ref, remove, set, child } from "firebase/database";
-export class Encoder{
-    constructor(){
-        this.rawDataToEncode = [];
-        this.formattedJsonData = {}
+
+export class Encoder {
+  constructor() {
+    this.rawDataToEncode = [];
+    this.formattedJsonData = {};
+  }
+
+  /**
+   * Converts an array into a labeled object
+   * @param {Array} arr
+   * @param {Array<string>} labels
+   */
+  rawDataToFormattedData(arr, labels) {
+    this.rawDataToEncode = arr;
+    this.formattedJsonData = {};
+
+    for (let i = 0; i < labels.length; i++) {
+      this.formattedJsonData[String(labels[i])] = arr[i];
     }
 
-    rawDataToFormattedData(arr, labels){
-        this.rawDataToEncode = arr;
-        for(let i=0;i<labels.length;i++){
-            this.formattedJsonData[labels[i]] = this.rawDataToEncode[i];
-        }
-        return this.formattedJsonData;
-        
+    return this.formattedJsonData;
+  }
+
+  /**
+   * Uploads formatted data to Firebase safely
+   * ALL PATH PARTS ARE FORCED TO STRINGS
+   */
+  uploadFormattedData(database, data, dataStructure) {
+    try {
+      // 🔒 Always force Firebase paths to strings
+      const basePath = String(dataStructure.getPath("Matches"));
+
+      const match = String(data["Match"]);
+      const position = String(data["Position"]);
+      const scout = String(data["Scout"]);
+
+      const key = `${match}-${position}-${scout}`;
+
+      const parentRef = ref(database, basePath);
+      const matchRef = child(parentRef, key + "/");
+
+      // Remove existing entry
+      remove(matchRef);
+
+      // Set new data
+      set(matchRef, data);
+
+      return true;
+    } catch (err) {
+      console.error("Encoder upload error:", err);
+      return err.message;
     }
-
-    uploadFormattedData(database, data, dataStructure){
-        try{
-            let setPath = dataStructure.getPath("Matches");
-            remove(ref(database, setPath + data["Match"] + "-" + data["Position"] + "-" + data["Scout"] + "/"), data)
-            set(child(ref(database, setPath), (data["Match"] + "-" + data["Position"] + "-" + data["Scout"] + "/")), data)
-            
-            //setPath = dataStructure.getPath("Robots");
-            
-            //if (data["Match"][0] == "0"){
-            //    data["Match"] = data["Match"].replace("0","")
-            //}
-            //set(child(ref(database, setPath + data["Team"] + '/'), data["Match"]), data)
-
-            
-            return true;
-        }
-        catch(err){
-          return err.message;
-          }
-
-    }
-
-
+  }
 }

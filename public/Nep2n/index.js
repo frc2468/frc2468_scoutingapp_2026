@@ -37,26 +37,8 @@ window.navigator.onLine ? internetOnline() : internetOffline();
 window.addEventListener('online', internetOnline);
 window.addEventListener('offline', internetOffline);
 
-let rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-"Mobility",
-"Auto L4",
-"Auto L3",
-"Auto L2",
-"Auto L1",
-"Auto Processor",
-"Auto Net",
-"Auto Fumbled",
-"Tele L4",
-"Tele L3",
-"Tele L2",
-"Tele L1",
-"Tele Processor",
-"Tele Net",
-"Fumbled",
-"Climb",
-"Defense Time",
-"Penalty Count",
-"Oof Time");
+let rankHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
+"Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
 
 //Navigation
 let pageChange = new SwitchPage()
@@ -159,9 +141,9 @@ document.addEventListener("keydown", function(e) {
                 break;
             case "p": //predict
                 let predictTeamList = searchVal.substring(1); //get the rest of the command
-                if (/^[0-9\s]+$/.test(teamList)) { //if the rest is numbers and spaces
+                if (/^[0-9\s]+$/.test(predictTeamList)) { //if the rest is numbers and spaces
                     pageChange.switchEvent("predict");
-                    let teamArray = teamList.split(" ");
+                    let teamArray = predictTeamList.split(" ");
                 } else {
                     alert("Invalid predict command");
                 } 
@@ -196,10 +178,8 @@ pageChange.switchEvent("home")
 
 //=============== HOME ===============
 var matchData = []
-var homeHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout",
-  "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Fumbled",
-  "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "T Fumbled", "Climb",
-  "Defense Time", "Penalty Count", "Oof Time");
+var homeHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
+"Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
 
 var homeQataHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", "Climb QATA", "Intake QATA", "QATA");
 
@@ -448,7 +428,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
   
     //General data: Purely quantitative data, no descriptions or words, only numbers and bools
     let generalSearchData = new AddTable()
-    let generalLabels = ["Match", "Position", "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "Fumbled"]
+    let generalLabels = ["Match", "Position","Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele"]
     generalSearchData.addHeader(generalLabels);
     //gettin each match
     var row = document.createElement("tr");
@@ -1372,7 +1352,7 @@ function predict() {
   var redDefPenTableBody = redDefPenTable.getTableBody();
   // vertical headers
   var gameStageHeader = dataStructure.createDataLabels("Auto", "Teleop", "Total");
-  var defPenHeader = dataStructure.createDataLabels("Defence Value", "Penalties");
+  var defPenHeader = dataStructure.createDataLabels("Defense Value", "Penalties");
   // getting data on each robot
   let arrayRobotData = [];
     let availRobots = Object.keys(robotData)
@@ -1640,25 +1620,8 @@ function calcAverage(robotInfo, potential = 0) {
 }
 
 //=============== SETTINGS ===============
-var settingWghtHeadNames = dataStructure.createDataLabels("Mobility",
-  "Auto L4",
-  "Auto L3",
-  "Auto L2",
-  "Auto L1",
-  "Auto Processor",
-  "Auto Net",
-  "Auto Fumbled",
-  "Tele L4",
-  "Tele L3",
-  "Tele L2",
-  "Tele L1",
-  "Tele Processor",
-  "Tele Net",
-  "Fumbled",
-  "Climb",
-  "Defense Time",
-  "Penalty Count",
-  "Oof Time");
+var settingWghtHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
+"Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
 
 //general table generation
 const settingWghtTable = new AddTable();
@@ -1681,26 +1644,8 @@ function getNewWeights() {
       newWeights.push(txtBoxes[i].value)
   }
   dataStructure.changeWghtValues(newWeights)
-  var rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-      "Mobility",
-      "Auto L4",
-      "Auto L3",
-      "Auto L2",
-      "Auto L1",
-      "Auto Processor",
-      "Auto Net",
-      "Auto Fumbled",
-      "Tele L4",
-      "Tele L3",
-      "Tele L2",
-      "Tele L1",
-      "Tele Processor",
-      "Tele Net",
-      "Fumbled",
-      "Climb",
-      "Defense Time",
-      "Penalty Count",
-      "Oof Time");
+  var rankHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
+  "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
   setPath = dataStructure.getPath("Final" + "/" + "Robots");
   get(ref(db, setPath)).then((snapshot) => {
       var data = snapshot.val()
@@ -1715,26 +1660,8 @@ function resetWeights() {
   for (var i = 0; i < settingWghtHeadNames.length; i++) {
       txtBoxes[i].value = defaultWeights[i];
   }
-  var rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-      "Mobility",
-      "Auto L4",
-      "Auto L3",
-      "Auto L2",
-      "Auto L1",
-      "Auto Processor",
-      "Auto Net",
-      "Auto Fumbled",
-      "Tele L4",
-      "Tele L3",
-      "Tele L2",
-      "Tele L1",
-      "Tele Processor",
-      "Tele Net",
-      "Fumbled",
-      "Climb",
-      "Defense Time",
-      "Penalty Count",
-      "Oof Time");
+  var rankHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
+  "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
   setPath = dataStructure.getPath("Final" + "/" + "Robots");
   get(ref(db, setPath)).then((snapshot) => {
       var data = snapshot.val()

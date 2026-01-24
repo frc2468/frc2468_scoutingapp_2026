@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 export class DataStructure {
     constructor() {
         this.dataValues = [0,0,"","",
-            "middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,""];
+            "",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,""];
         this.dataLabels = ["Match", "Team", "Position", "Scout", 
          "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment"];
         this.dataTypes  = ["number", "number", "string", "string",
@@ -85,7 +85,7 @@ export class DataStructure {
         this.pitscoutLabels = ['Timestamp','Team', 'Scouter', 'Scout Name', 'Drivetrain', 'Robot Weight', 'Number of Motors', 'Motor Type', 'Coding Language', 'Vision Capabilities', 'Vision', 'Auto', 'Auto Climb', 'Endgame Climb', 'Piece Type', 'Manipulator', 'Aluminum Assistance', 'Mech-Controls Issue?', 'Miscellaneous'];
         this.imageLabels = ['Timestamp', 'Team', 'Image of Robot'];
 
-        this.firebasePath = "2025txwac";
+        this.firebasePath = "2025txcpl";
         this.firebaseConfig = {
             apiKey: "AIzaSyBvN_v9pz5KFshemssxm-cb8R2vTviGkOs",
             authDomain: "scouting-app-d8a4d.firebaseapp.com",

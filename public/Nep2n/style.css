@@ -41,16 +41,17 @@ body{
     width: 100vw;
     height: 100vh;
 
-    display:grid;
+    display: grid;
     grid-template-columns: repeat(4, 25vw);
     grid-template-rows: repeat(4, 25vh);
 
     z-index:1;
-    position:absolute;
+    position:relative;
 
-    overflow-y:scroll;
-    overflow-x: hidden;
+    overflow-y:auto;
+    overflow-x: scroll;
     color: var(--text-color);
+
 
     grid-row: 1/5;
     grid-column: 1/5;
@@ -164,6 +165,7 @@ body{
     animation-duration: 0.3s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
+    animation-direction: reverse;
 }
 
 .showNavBar{
