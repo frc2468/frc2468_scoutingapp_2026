@@ -37,26 +37,46 @@ window.navigator.onLine ? internetOnline() : internetOffline();
 window.addEventListener('online', internetOnline);
 window.addEventListener('offline', internetOffline);
 
-let rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-"Mobility",
-"Auto L4",
-"Auto L3",
-"Auto L2",
-"Auto L1",
-"Auto Processor",
-"Auto Net",
-"Auto Fumbled",
-"Tele L4",
-"Tele L3",
-"Tele L2",
-"Tele L1",
-"Tele Processor",
-"Tele Net",
-"Fumbled",
-"Climb",
-"Defense Time",
-"Penalty Count",
-"Oof Time");
+let rankHeadNames = dataStructure.createDataLabels(
+    "Rank", "Team",
+    "Total Score",
+    "Auto Score",
+    "Tele Score",
+    "Total Fuel Scored",
+    "Auto Fuel Scored",
+    "Tele Fuel Scored",
+    "Auto Pickup Total",
+    "Tele Pickup Total",
+
+
+    "A Dump",
+    "A Trench",
+    "A Shot",
+    "A Climb",
+    "A Depot",
+    "A Outpost",
+    "A NZ Pickup",
+    "A Start Pos",
+    "Auto Win",
+
+
+    "T Dump",
+    "T Trench",
+    "T Shot",
+    "Climb Level",
+    "T Outpost Pickup",
+    "T Pickup Own AZ",
+    "T Pickup NZ",
+    "T Pickup Opp AZ",
+
+
+    "Same Rung Climb",
+    "Defense Time",
+    "Oof Time",
+    "Auto Feed",
+    "T Feed NZ",
+    "T Feed Opp AZ",
+);
 
 //Navigation
 let pageChange = new SwitchPage()
@@ -197,9 +217,43 @@ pageChange.switchEvent("home")
 //=============== HOME ===============
 var matchData = []
 var homeHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout",
-  "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Fumbled",
-  "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "T Fumbled", "Climb",
-  "Defense Time", "Penalty Count", "Oof Time");
+  "Total Score",
+    "Auto Score",
+    "Tele Score",
+    "Total Fuel Scored",
+    "Auto Fuel Scored",
+    "Tele Fuel Scored",
+    "Auto Pickup Total",
+    "Tele Pickup Total",
+
+
+    "A Dump",
+    "A Trench",
+    "A Shot",
+    "A Climb",
+    "A Depot",
+    "A Outpost",
+    "A NZ Pickup",
+    "A Start Pos",
+    "Auto Win",
+
+
+    "T Dump",
+    "T Trench",
+    "T Shot",
+    "Climb Level",
+    "T Outpost Pickup",
+    "T Pickup Own AZ",
+    "T Pickup NZ",
+    "T Pickup Opp AZ",
+
+
+    "Same Rung Climb",
+    "Defense Time",
+    "Oof Time",
+    "Auto Feed",
+    "T Feed NZ",
+    "T Feed Opp AZ",);
 
 var homeQataHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", "Climb QATA", "Intake QATA", "QATA");
 
@@ -976,7 +1030,6 @@ function displayRankings(data, rankHeadNames) {
     document.getElementById("rank-container").appendChild(rankTable.getTable());
   
     var robotNames = Object.keys(data)
-    rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score","Mobility","Auto L4","Auto L3","Auto L2","Auto L1","Auto Processor","Auto Net","Auto Fumbled","Tele L4","Tele L3","Tele L2","Tele L1","Tele Processor","Tele Net","Fumbled","Climb","Defense Time","Penalty Count","Oof Time");
   var dataLabelsToCalc = rankHeadNames.splice(3);
   //for loop over each robot
   for (var i = 0; i < robotNames.length; i++) {
@@ -1681,26 +1734,6 @@ function getNewWeights() {
       newWeights.push(txtBoxes[i].value)
   }
   dataStructure.changeWghtValues(newWeights)
-  var rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-      "Mobility",
-      "Auto L4",
-      "Auto L3",
-      "Auto L2",
-      "Auto L1",
-      "Auto Processor",
-      "Auto Net",
-      "Auto Fumbled",
-      "Tele L4",
-      "Tele L3",
-      "Tele L2",
-      "Tele L1",
-      "Tele Processor",
-      "Tele Net",
-      "Fumbled",
-      "Climb",
-      "Defense Time",
-      "Penalty Count",
-      "Oof Time");
   setPath = dataStructure.getPath("Final" + "/" + "Robots");
   get(ref(db, setPath)).then((snapshot) => {
       var data = snapshot.val()
@@ -1715,26 +1748,6 @@ function resetWeights() {
   for (var i = 0; i < settingWghtHeadNames.length; i++) {
       txtBoxes[i].value = defaultWeights[i];
   }
-  var rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-      "Mobility",
-      "Auto L4",
-      "Auto L3",
-      "Auto L2",
-      "Auto L1",
-      "Auto Processor",
-      "Auto Net",
-      "Auto Fumbled",
-      "Tele L4",
-      "Tele L3",
-      "Tele L2",
-      "Tele L1",
-      "Tele Processor",
-      "Tele Net",
-      "Fumbled",
-      "Climb",
-      "Defense Time",
-      "Penalty Count",
-      "Oof Time");
   setPath = dataStructure.getPath("Final" + "/" + "Robots");
   get(ref(db, setPath)).then((snapshot) => {
       var data = snapshot.val()
