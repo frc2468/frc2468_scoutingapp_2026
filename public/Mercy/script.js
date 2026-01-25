@@ -26,30 +26,35 @@ const encoder = new Encoder();
 const dataStructure = new DataStructure();
 
 let eventName;
-let api_url;
+let API_URL;
 let toggleTBA = false;
-//let availPaths = ["2025wimu", "2025txwac"];
-let availPaths = ["2025txcmp1"];
+//let defaultFirebasePath = ["2025wimu", "2025txwac"];
+let defaultFirebasePath = ["2025txcmp1"];
 let firebasePath = localStorage.getItem('firebasePath');
 
 function promptForPath(defaultVal) {
+  //This function creates a pop-up window so your can type what Firebase Path the user wants to use
+  //It only accepts the once in defaultFirebasePath
   let valid = true;
   let userInput;
   while (valid) {
     userInput = prompt('Please enter a firebase path:', defaultVal);
     if (!userInput) continue;
     userInput = userInput.toLowerCase();
-    if (availPaths.includes(userInput)) valid = false;
+    if (defaultFirebasePath.includes(userInput)) {
+      valid = false;
+    }
   }
   return userInput;
 }
 
-let userInput = firebasePath ? promptForPath(firebasePath) : promptForPath("");
-if (userInput.includes("practice")) toggleTBA = true;
-dataStructure.setFirebasePath("Events/" + userInput + "/");
-eventName = userInput;
-localStorage.setItem('firebasePath', userInput);
-api_url = `https://www.thebluealliance.com/api/v3/event/${eventName}/matches?X-TBA-Auth-Key=vyLPDCJ6TJZgpdVmZkszbUI65Bdz4eqjYIEm4KjCAOENr4WXCyn1oMOHi5bFW2er`;
+eventName = firebasePath ? promptForPath(firebasePath) : promptForPath("");
+if (eventName.includes("practice")) {
+  toggleTBA = true;
+}
+dataStructure.setFirebasePath("Events/" + eventName + "/");
+localStorage.setItem('firebasePath', eventName);
+API_URL = `https://www.thebluealliance.com/api/v3/event/${eventName}/matches?X-TBA-Auth-Key=vyLPDCJ6TJZgpdVmZkszbUI65Bdz4eqjYIEm4KjCAOENr4WXCyn1oMOHi5bFW2er`;
 
 let netStatus;
 //let inputs = 0; NOT BEING USED
@@ -87,122 +92,88 @@ function uploadData() {
   }
 
   let all_data = document.getElementById("input").value;
-  if (all_data === "") {
+  if (!all_data || all_data === "") {
+    //returns a status update if the input given by the user is empty
     document.getElementById("status").innerHTML =
         "Empty Push, Upload Not Registered";
     return;
   }
+  /*
+  This goes through all_data and makes sure that we have no Regular Expressions ( /[\n\r]+/g ) in the input before
+  we start splitting the code
+  /[\n\r]+/g  is used to classify one or more consecutive newline (\n) or carriage return (\r) characters.
+  If we have any, they are getting replaced with '', which is how we delete them
+  */
   all_data = all_data.replace(/[\n\r]+/g, '');
-
+  //splits all the inputted data, to create a list of independent variables
   let rows = all_data.split(/\n/);
-  //let sorted_data = [];
-
+  // Getting the correct Data Labels and Data Types from dataStructure.js
   const labels = dataStructure.getDataLabels();
   const types = dataStructure.getDataTypes();
-//I CHANGE THE WAY WE SPLIT:
+  //Loops through each row in a rows so we can split by comma
   for (let row of rows) {
-    if (!row.trim) continue;
-
+    if (!row.trim) {
+      continue;
+    }
+    //splitting each row everytime we see a comma
     let data = row.split(",").map(v => v.trim());
 
     if (data.length !== labels.length) {
+      /*
+      Checking if the length of the data we have corresponds with the length that we expected to get
+      If it doesn't we print out an error
+       */
       document.getElementById("status").innerHTML +=
           `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Length<br>`;
       continue;
     }
-/* TO MUCH OF A HARD CODE, SO I REWROTE IT
-    if (!/^\d+$/.test(data[0])) {
-      document.getElementById("status").innerHTML +=
-          `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Match<br>`;
-      continue;
-    }
-
-    if (!/^\d+$/.test(data[1]) || data[1].length > 4) {
-      document.getElementById("status").innerHTML +=
-          `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Team<br>`;
-      continue;
-    }
-
-    if (!["b1","b2","b3","r1","r2","r3"].includes(data[2])) {
-      document.getElementById("status").innerHTML +=
-          `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Position<br>`;
-      continue;
-    }
-    if(['right', 'left', 'middle'].indexOf(data[4]) === -1){
-      document.getElementById("status").innerHTML += `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid StartingPosition<br>`;
-      continue;
-    }
-
-
-    let invalid = "";
-    let valid = true;
-
-    for (let j = 5; j < 30; j++) {
-      if (types[j] !== "number") continue;
-
-      if (!/^\d+$/.test(data[j])) {
-        valid = false;
-        invalid += `index ${j + 1}, value ${data[j]}, or ${labels[j]}<br>`;
-      }
-    }
-
-    if (!valid) {
-      document.getElementById("status").innerHTML +=
-          `Failed Upload for ${data[0]}-${data[2]}-${data[3]}: Invalid Qualitative Data For:<br>${invalid}<br>`;
-      continue;
-    }
-    let cache = localStorage.getItem("dataCache") || "";
-    cache += rows[i] + "\n";
-    localStorage.setItem("dataCache", cache);
-    sorted_data.push(data);
-  }
-  for (let data of sorted_data) {
-    let formatted = encoder.rawDataToFormattedData(data, labels);
-    let status = encoder.uploadFormattedData(db, formatted, dataStructure);
-
-    if (status === true) {
-      document.getElementById("status").innerHTML +=
-          `Successful Upload for ${formatted.Match}-${formatted.Position}-${formatted.Scout}<br>`;
-    } else {
-      document.getElementById("status").innerHTML +=
-          `Failed Upload for ${formatted.Match}-${formatted.Position}-${formatted.Scout}: ${status}<br>`;
-    }
-  }
-}
-
- */
     let formatted = encoder.rawDataToFormattedData(data, labels);
     try {
       let invalid = "";
       let valid = true;
-
+      //Checking the data itself
       for (let j = 0; j < data.length; j++) {
-        if (j === 0 || j === 1 || j === 2 || j === 4) {
-          if (!/^\d+$/.test(data[0])) {
+        //checking each segment
+        if (j === 0 || j === 1 || j === 2 || j === 3 || j === 4) {
+          //checking the first five variables manually, to see if they met the standards
+          if (!/^\d+$/.test(data[0]) ) {
+            //Checking the match number
             valid = false;
             document.getElementById("status").innerHTML +=
                 `Invalid Match for ${data[0]}-${data[2]}-${data[3]}<br>`;
             break;
           }
           if (!/^\d+$/.test(data[1]) || data[1].length > 4) {
+            //Checking the Team Number
             valid = false;
             document.getElementById("status").innerHTML +=
                 `Invalid Team for ${data[0]}-${data[2]}-${data[3]}<br>`;
             break;
           }
           if (!["b1","b2","b3","r1","r2","r3"].includes(data[2])) {
+            //Checking that the position is one of the once we wanted (aka "b1","b2","b3","r1","r2","r3")
             valid = false;
             document.getElementById("status").innerHTML +=
                 `Invalid Position for ${data[0]}-${data[2]}-${data[3]}<br> Please write b1, b2, b3, r1, r2, r3<br>`;
             break;
           }
+          if (!/^\d+$/.test(data[3]) || data[3].length !== 5) {
+            //Checking that the lunch number is five digits long number
+            valid = false;
+            document.getElementById("status").innerHTML +=
+                `Invalid Scout for ${data[0]}-${data[2]}-${data[3]}<br> Please write you lunch number<br> Example: 12345<br>`;
+            break;
+          }
           if (['right', 'left', 'middle'].indexOf(data[4]) === -1) {
+            //Checking that the position is one of the once we wanted (aka 'right', 'left', 'middle')
             valid = false;
             document.getElementById("status").innerHTML +=
                 `Invalid StartingPosition for ${data[0]}-${data[2]}-${data[3]}<br> Please write middle, left, right<br>`;
             break;
           }
         } else {
+          //checking the rest of the data to see if it corresponds with the data type we wanted
+
           // number validation
           if (types[j] === "number") {
             if (!/^\d+$/.test(data[j])) {
@@ -238,23 +209,6 @@ function uploadData() {
 }
 
 document.getElementById("button").addEventListener("click", uploadData);
-/*
-document.getElementById("download").addEventListener("click", () => {
-  let cache = localStorage.getItem("dataCache");
-  if (!cache) return;
-
-  let a = document.createElement("a");
-  a.href = "data:text/plain;charset=utf-8," + encodeURIComponent(cache);
-  a.download = "mercyCache.txt";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-});
-document.getElementById("cleardown").addEventListener("click", () => {
-  localStorage.setItem("dataCache", "");
-});
-*/
-
 
 function download(){
   let cache = localStorage.getItem("dataCache");
@@ -391,7 +345,7 @@ onChildAdded(ref(db, setPath), (snapshot) => {
 });
 
 // Periodic API update for TBA data
-let TBAGrabber = setInterval(() => { getapi(api_url); }, 30000);
+let TBAGrabber = setInterval(() => { getapi(API_URL); }, 30000);
 let TBABypass;
 
 if(toggleTBA){
@@ -403,7 +357,7 @@ function toggle(){
   if(toggleTBA){
     toggleTBA = false;
     clearInterval(TBABypass);
-    TBAGrabber = setInterval(() => { getapi(api_url); }, 30000);
+    TBAGrabber = setInterval(() => { getapi(API_URL); }, 30000);
     document.getElementById("TBAtoggle").innerHTML = "TBA: ON";
   } else {
     toggleTBA = true;
