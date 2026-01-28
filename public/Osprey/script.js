@@ -1055,10 +1055,7 @@ function resetGame(){
     teamNum = null;
     notesToggled = false;
 
-    //dataValues = [false, 0, 0, 0, 0, 0, 0, false, null, 0, 0, false, "", false, "", "", ""]
-    dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,""];
-    //dataLabels = [ "Mobility", "Auto High Cube", "Auto Mid Cube", "Auto Low Cube", "Auto High Cone", "Auto Mid Cone", "Auto Low Cone", "Auto Fumbled", "Auto Climb", "High Cube", "Mid Cube", "Low Cube",  "High Cone", "Mid Cone", "Low Cone", "Fumbled", "Climb", "Park","Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Link QATA", "QATA", "Drivetrain"];
-
+    dataValues = ["middle",0,0,0,0,false,0,0,0,0,0,0,0,0,""];
     //clearing main page and generating the displaybar
     document.getElementById("mainPage").innerHTML = '';
     let displayBar = document.createElement("div");
