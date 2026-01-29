@@ -956,6 +956,17 @@ body{
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
   }
+
+  .afterPageStringInputs {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 0; 
+    overflow: auto;
+  }
+  
+  
+
   
 #reset {
     position: fixed;
@@ -965,4 +976,24 @@ body{
     font-family: "Roboto Mono", monospace;
     font-size: 1rem;
     color: var(--r);
+    background: none;       /* same as reset button (assuming it has no background) */
+    border: none;           /* match reset style */
+    cursor: pointer;
+    z-index: 1000;
 }
+
+#endMatch {
+    position: fixed;
+    bottom: 20px;             /* different corner */
+    right: 100px;            /* different corner */
+    margin: 5px;
+    font-family: "Roboto Mono", monospace;
+    font-size: 1rem;
+    color: var(--r);       /* matches reset color */
+    background: none;      /* match reset */
+    border: none;          /* match reset */
+    cursor: pointer;
+    z-index: 1000;
+}
+
+
