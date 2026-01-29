@@ -21,29 +21,6 @@ document.getElementById("fieldCanvas").addEventListener("click", ()=>{
     canvasClicked()
 })
 
-//canvas functions to get mouse position, translate to canvas position
-// function getMousePos(canvas, evt) {
-//     var rect = canvas.getBoundingClientRect();
-//     return {
-//       x: (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
-//       y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
-//     };
-// }
-// function canvasClicked(){
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     canvas.width = img.width;
-//     canvas.height = img.height;
-//     ctx.drawImage(img, 0, 0);
-//     var pos = getMousePos(canvas, event);
-//     ctx.strokeStyle = "white";
-//     ctx.fillStyle = "white";
-//     ctx.beginPath();
-//     ctx.arc(pos.x, pos.y, 5, 0, 2 * Math.PI);
-//     ctx.fill();
-//     ctx.stroke();
-//     console.log("canvas clicked, x: " + Math.round(pos.x) + ", y: " + Math.round(pos.y));
-// }
-
 window.onscroll = () => { window.scroll(0, 0); }; //stops scrolling, hacky bugfix
 
 //code for search qr popup
@@ -1049,10 +1026,7 @@ function resetGame(){
     teamNum = null;
     notesToggled = false;
 
-    //dataValues = [false, 0, 0, 0, 0, 0, 0, false, null, 0, 0, false, "", false, "", "", ""]
-    dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,""];
-    //dataLabels = [ "Mobility", "Auto High Cube", "Auto Mid Cube", "Auto Low Cube", "Auto High Cone", "Auto Mid Cone", "Auto Low Cone", "Auto Fumbled", "Auto Climb", "High Cube", "Mid Cube", "Low Cube",  "High Cone", "Mid Cone", "Low Cone", "Fumbled", "Climb", "Park","Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Link QATA", "QATA", "Drivetrain"];
-
+    dataValues = ["middle",0,0,0,0,false,0,0,0,0,0,0,0,0,""];
     //clearing main page and generating the displaybar
     document.getElementById("mainPage").innerHTML = '';
     let displayBar = document.createElement("div");
