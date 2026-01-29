@@ -5,9 +5,12 @@ export class DataStructure {
         this.dataValues = [0,0,"","",
             "middle",0,0,0,0,false,0,0,0,0,0,0,0,0,""];
         this.dataLabels = ["Match", "Team", "Position", "Scout", 
-        "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win", "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment"]
+        "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
+            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
+            "Estimate Auto", "Estimate Tele", "Comment"]
         this.dataTypes  = ["number", "number", "string", "string",
-            "string", "number", "number", "number", "number", "number", "number", "number", "number",
+            "string", "number", "number", "number", "number", "number", "number",
+            "number", "number",
             "number", "number", "number", "number", "number","string"];            
         this.avgFilterLabels=[ 
             "Auto Pickup",
