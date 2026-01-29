@@ -67,7 +67,7 @@ export class DataStructure {
         this.pitscoutLabels = ['Timestamp','Team', 'Scouter', 'Scout Name', 'Drivetrain', 'Robot Weight', 'Number of Motors', 'Motor Type', 'Coding Language', 'Vision Capabilities', 'Vision', 'Auto', 'Auto Climb', 'Endgame Climb', 'Piece Type', 'Manipulator', 'Aluminum Assistance', 'Mech-Controls Issue?', 'Miscellaneous'];
         this.imageLabels = ['Timestamp', 'Team', 'Image of Robot'];
 
-        this.firebasePath = "2025txwac";
+        this.firebasePath = "2025txcmp1";
         this.firebaseConfig = {
             apiKey: "AIzaSyBvN_v9pz5KFshemssxm-cb8R2vTviGkOs",
             authDomain: "scouting-app-d8a4d.firebaseapp.com",

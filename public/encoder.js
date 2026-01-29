@@ -16,9 +16,16 @@ export class Encoder{
 
     uploadFormattedData(database, data, dataStructure){
         try{
+            //console.log("called upload formmated data");
             let setPath = dataStructure.getPath("Matches");
+            //console.log(2);
             remove(ref(database, setPath + data["Match"] + "-" + data["Position"] + "-" + data["Scout"] + "/"), data)
-            set(child(ref(database, setPath), (data["Match"] + "-" + data["Position"] + "-" + data["Scout"] + "/")), data)
+            //console.log(3);
+            //console.log(typeof(data))
+            console.log(Object.keys(data).length)
+            console.log(Object.keys(dataStructure.getDataTypes()).length)
+            set(child(ref(database, setPath), (data["Match"] + "-" + data["Position"] + "-" + data["Scout"] + "/")), data) // < - - - broken
+            //console.log(4);
             
             //setPath = dataStructure.getPath("Robots");
             
@@ -31,7 +38,8 @@ export class Encoder{
             return true;
         }
         catch(err){
-          return err.message;
+          throw(err)
+          return err;
           }
 
     }
