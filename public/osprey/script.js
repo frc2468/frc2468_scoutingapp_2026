@@ -6,6 +6,10 @@ let testing = false; // DISABLES INTRO PAGE CHECKS IF TRUE
 
 let startAudio = new Audio("sfx/start.wav")
 
+const AUTO_TIME = 20;
+const TELE_TIME = 140;
+
+
 //import field image and draw on canvas for starting position
 var img = new Image(); 
 img.src = 'img/field.png';
@@ -16,29 +20,6 @@ ctx.drawImage(img, 0, 0);
 document.getElementById("fieldCanvas").addEventListener("click", ()=>{
     canvasClicked()
 })
-
-//canvas functions to get mouse position, translate to canvas position
-// function getMousePos(canvas, evt) {
-//     var rect = canvas.getBoundingClientRect();
-//     return {
-//       x: (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
-//       y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
-//     };
-// }
-// function canvasClicked(){
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     canvas.width = img.width;
-//     canvas.height = img.height;
-//     ctx.drawImage(img, 0, 0);
-//     var pos = getMousePos(canvas, event);
-//     ctx.strokeStyle = "white";
-//     ctx.fillStyle = "white";
-//     ctx.beginPath();
-//     ctx.arc(pos.x, pos.y, 5, 0, 2 * Math.PI);
-//     ctx.fill();
-//     ctx.stroke();
-//     console.log("canvas clicked, x: " + Math.round(pos.x) + ", y: " + Math.round(pos.y));
-// }
 
 window.onscroll = () => { window.scroll(0, 0); }; //stops scrolling, hacky bugfix
 
@@ -204,8 +185,15 @@ window.addEventListener('keydown', function (keystroke) {
 
 //reads settings.js file, generates HTML for the app using that info
 function generateMainPage(stage){
-    document.getElementById("display-match").innerHTML = "Match:  " + matchNum;
-    document.getElementById("display-team").innerHTML = "Team: " + teamNum;
+    const displayMatch = document.getElementById("display-match");
+    const displayTeam  = document.getElementById("display-team");
+
+    if (displayMatch) {
+        displayMatch.innerHTML = "Match: " + matchNum;
+    }
+    if (displayTeam) {
+        displayTeam.innerHTML = "Team: " + teamNum;
+    }
     if(stage == "auto"){
         for(i=0; i<settings.auto.length; i++){
             const box = document.createElement("div")
@@ -275,7 +263,11 @@ function generateMainPage(stage){
         console.log("tele generated");
     }
     if(stage == "after"){
-        document.getElementById("displayBar").style.display = "none"
+        const displayBar = document.getElementById("displayBar");
+        if (displayBar) {
+            displayBar.style.display = "none";
+        }
+
 
         //close notes box if it is open
         document.getElementById('notes').blur()
@@ -655,99 +647,91 @@ function generateMainPage(stage){
 
 //defines time length, starts timer 
 function timerStart(i){
-    timer = 160;
+    state = "auto";
+    timer = AUTO_TIME;
     delay = true;
     updateTimer();
     window.timerFunction = setInterval(updateTimer, timeInt)
     console.log("timer started")
     console.log(delay)
 }
+
 function updateTimer(){
-    document.getElementById("display-timer").innerHTML = timer;
+    const timeEl = document.getElementById("display-timer");
+    if (timeEl){
+        timeEl.innerHTML = timer;
+    }
     if(settings.imported.transitionMode == "manual"){
         timer--;
     }
     if(settings.imported.transitionMode == "auto"){
         console.log(delay)
-        if (timer == 140 && delay) { //janky implementation of 2 second auto to teleop delay
-            timer = 143; //136??? check delay
-            delay = !delay
+        if (timer <= 0 && delay) { 
+            timer = 2; 
+            delay = !delay;
+            return;
         }
-        if (timer == 140 && !delay) {
-            state = "tele"
-            transition(2)
+        if (timer <= 0 && !delay) {
+            state = "tele";
+            timer = TELE_TIME;
+            transition(2);
+            return;
         }
-        if(timer == 30){
-            //state = "end"
-            //transition(3)
-            //this was removed because the endgame page was the same as the teleop page
-        }
-        if(timer == 0) {
+        if(timer <= 0) {
             console.log("Game over");
             timer -= 1;
             state = "after";
-            transition(4)
+            transition(4);
+            return;
         }
         if (timer > 0) {
             timer --;
         }
     }
-    if(timer == 0) {
-        console.log("Game over");
-        timer -= 1;
-        state = "after";
-        transition(4)
-    } 
 }
 
-function updateQr(){
+function updateQr() {
+    const qrContainer = document.getElementById("qrContainer");
+    const qrText = document.getElementById("qrText");
+
+    // ⛔ After page not built yet
+    if (!qrContainer || !qrText) {
+        return;
+    }
+
     combAllianceColor = allianceColor + teamPos;
     matchInfo = [matchNum, teamNum, combAllianceColor, scoutNum];
-    for(let i=0; i<dataValues.length; i++){
-        // if(i == 8){ //scrappy code, should change later   
-        // }
-        if(typeof dataValues[i] == "boolean"){ //convert boolean to 0 or 1
-            if(dataValues[i]){
-                dataValues[i] = 1;
-            }
-            else if(!dataValues[i]){
-                dataValues[i] = 0;
-            }
-        } else if (typeof dataValues[i] === "number") {
+
+    for (let i = 0; i < dataValues.length; i++) {
+        if (typeof dataValues[i] === "boolean") {
+            dataValues[i] = dataValues[i] ? 1 : 0;
+        } 
+        else if (typeof dataValues[i] === "number") {
             const el = document.getElementById("str" + i);
             if (el) {
                 dataValues[i] = el.value === "" ? 0 : Number(el.value);
             }
         }
-
         else if (typeof dataValues[i] === "string") {
             const el = document.getElementById("str" + i);
             if (el) {
                 let textValue = el.value || "";
                 textValue = textValue.replace(/\n/g, ' ').replace(/,/g, ';');
                 dataValues[i] = textValue.length === 0 ? "None" : textValue;
-            } else {
-                // element not present — keep existing value or set a safe default
-                if (!dataValues[i] || dataValues[i].length === 0) {
-                    dataValues[i] = "None";
-                }
+            } else if (!dataValues[i]) {
+                dataValues[i] = "None";
             }
-            continue;
-    
         }
-        
-    }    //console.log(dataValues)
+    }
 
-    //reference for qr gen: https://github.com/kazuhikoarase/qrcode-generator/blob/master/js/README.md
-
-    var typeNumber = 0;
-    var errorCorrectionLevel = 'L';
-    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    const qr = qrcode(0, 'L');
     qr.addData(matchInfo.concat(dataValues).toString());
     qr.make();
-    document.getElementById('qrContainer').innerHTML = qr.createImgTag();
-    document.getElementById("qrText").innerHTML = matchInfo.concat(dataValues);
+
+    qrContainer.innerHTML = qr.createImgTag();
+    qrText.innerHTML = matchInfo.concat(dataValues);
 }
+
 
 let incArr = []
 let selected = -1;
@@ -989,25 +973,45 @@ function transition(i){
     }
     if(i==2){
         // document.getElementById("mainPage").textContent = '';
-        let removeElem = (settings.auto.length)*3        
-        for(let i=0; i<removeElem; i++){
-            
-            mainPageElem = document.getElementById("mainPage");
-            mainPageElem.removeChild(mainPageElem.lastElementChild)
+        const mainPageElem = document.getElementById("mainPage");
+
+        while (mainPageElem.lastElementChild) {
+            mainPageElem.removeChild(mainPageElem.lastElementChild);
         }
+        if (!document.getElementById("displayBar")) {
+            let displayBar = document.createElement("div");
+            displayBar.id = "displayBar";
+
+            displayBar.innerHTML = `
+                <div id="display-match"></div>
+                <div id="display-timer"></div>
+                <div id="display-team"></div>
+            `;
+
+            document.getElementById("mainPage").appendChild(displayBar);
+        }
+        if (!document.getElementById("reset")) {
+            mainPage.innerHTML += '<div id="reset" onclick="abortMatch()">Abort</div>';
+        }
+        if (!document.getElementById("endMatch")) {
+            mainPage.innerHTML += '<div id="endMatch" onclick="endMatchEarly()">End Early</div>';
+        }
+
+
         generateMainPage("tele")
         state = "tele"
     }
-    if(i == 4  && state == "after"){
-        let removeElem = (settings.tele.length)*3        
-        for(let i=0; i<removeElem; i++){
-            
-            mainPageElem = document.getElementById("mainPage");
-            mainPageElem.removeChild(mainPageElem.lastElementChild)
+    if (i === 4 && state === "after") {
+    const mainPageElem = document.getElementById("mainPage");
+
+        // Clear whatever phase was active
+        while (mainPageElem.lastElementChild) {
+            mainPageElem.removeChild(mainPageElem.lastElementChild);
         }
+
         generateMainPage("after");
-        
     }
+
 }
 
 function resetGame(){
@@ -1022,10 +1026,7 @@ function resetGame(){
     teamNum = null;
     notesToggled = false;
 
-    //dataValues = [false, 0, 0, 0, 0, 0, 0, false, null, 0, 0, false, "", false, "", "", ""]
-    dataValues = ["middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,""];
-    //dataLabels = [ "Mobility", "Auto High Cube", "Auto Mid Cube", "Auto Low Cube", "Auto High Cone", "Auto Mid Cone", "Auto Low Cone", "Auto Fumbled", "Auto Climb", "High Cube", "Mid Cube", "Low Cube",  "High Cone", "Mid Cone", "Low Cone", "Fumbled", "Climb", "Park","Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Link QATA", "QATA", "Drivetrain"];
-
+    dataValues = ["middle",0,0,0,0,false,0,0,0,0,0,0,0,0,""];
     //clearing main page and generating the displaybar
     document.getElementById("mainPage").innerHTML = '';
     let displayBar = document.createElement("div");

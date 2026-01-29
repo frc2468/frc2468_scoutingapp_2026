@@ -3,60 +3,41 @@ import { initializeApp } from "firebase/app";
 export class DataStructure {
     constructor() {
         this.dataValues = [0,0,"","",
-            "middle",0,0,0,0,0,0,0,0,false,0,0,0,0,0,0,0,0,0,false,0,0,0,0,0,""];
+            "middle",0,0,0,0,false,0,0,0,0,0,0,0,0,""];
         this.dataLabels = ["Match", "Team", "Position", "Scout", 
-         "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment"];
+        "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win", "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment"]
         this.dataTypes  = ["number", "number", "string", "string",
             "string", "number", "number", "number", "number", "number", "number", "number", "number",
-            "number", "number", "number", "number", "number", "number", "number", 
-            "number", "number", "number", "number","number", "number", "number", "number", "number","string"];            
+            "number", "number", "number", "number", "number","string"];            
         this.avgFilterLabels=[ 
-            "Auto Depot Pickup",
-            "Auto Outpost Pickup",
-            "Auto NZ Pickup",
-            "Auto Dump",
-            "Auto Trench",
+            "Auto Pickup",
             "Auto Shot",
-            "Auto Climb",
             "Auto Feed",
+            "Auto Climb",
             "Auto Win",
-            "Tele Outpost Pickup",
-            "Tele Pickup Own AZ",
-            "Tele Pickup NZ",
-            "Tele Feed Opp AZ",
-            "Tele Bump",
-            "Tele Trench",
+            "Tele Pickup",
             "Tele Shot",
+            "Tele Feed",
             "Tele Defense",
             "Tele Climb",
-            "Tele Climb Buddy",
-            "Tele Feed NZ", 
-            "Tele Feed Opp AZ", 
             "Oof Time", 
             "Estimate Auto", 
             "Estimate Tele"
         ];
         this.avgFilterLabelsAuto = [
-           "Auto Depot Pickup",
-            "Auto Outpost Pickup",
-            "Auto NZ Pickup",
-            "Auto Dump",
-            "Auto Trench",
+           "Auto Pickup",
             "Auto Shot",
-            "Auto Climb",
             "Auto Feed",
-            "Auto Win"
+            "Auto Climb",
+            "Auto Win",
+            "Estimate Auto"
         ];
         this.avgFilterLabelsTele = [
-           "Tele Outpost Pickup",
-            "Tele Pickup Own AZ",
-            "Tele Pickup NZ",
-            "Tele Feed Opp AZ",
-            "Tele Bump",
-            "Tele Trench",
+           "Tele Pickup",
             "Tele Shot",
-            "Tele Feed NZ", 
-            "Tele Feed Opp AZ"
+            "Tele Feed",
+            "Tele Climb",
+            "Estimate Tele"
         ];
         this.avgFilterLabelsDefPen = [
             "Tele Defense",
@@ -67,8 +48,9 @@ export class DataStructure {
         ];
 
 // Needs to be changed as of 1/14
+// How are we going to do the weighting???
         this.wghtValues = [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0];
-        this.ptValues = [3, 7, 6, 4, 3, 6, 4, 0, 5, 4, 3, 2, 6, 4, 0, 1, 0, 0, 0];
+        this.ptValues = [0, 0, 0, 0, 0, 0, 4, 0, 5, 4, 3, 2, 6, 4, 0, 1, 0, 0, 0];
         this.autoPtValues = [3, 7, 6, 4, 3, 6, 4, 0];
         this.telePtValues = [5, 4, 3, 2, 6, 4, 0, 1];
         this.autoFilteredPtValues = [6, 4, 3];
