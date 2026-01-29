@@ -711,12 +711,6 @@ function updateTimer(){
             timer --;
         }
     }
-    // if(timer == 0) {
-    //     console.log("Game over");
-    //     timer -= 1;
-    //     state = "after";
-    //     transition(4)
-    // } 
 }
 
 function updateQr() {
@@ -1206,14 +1200,6 @@ function endMatchEarly() {
     state = "after";
     transition(4);
 }
-
-// function showDisplayBar() {
-//     document.getElementById("displayBar").style.display = "flex";
-// }
-
-// function hideDisplayBar() {
-//     document.getElementById("displayBar").style.display = "none";
-// }
 
 
 
