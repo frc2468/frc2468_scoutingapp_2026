@@ -1128,6 +1128,7 @@ function abortMatch() {
 }
 
 // broken
+// fills missing default value via hardcoded string in dataStructures
 function fillMissingDefaults() {
     for (let sectionName in settings) {
         let section = settings[sectionName];
@@ -1162,9 +1163,13 @@ function fillMissingDefaults() {
 
 
 function endMatchEarly() {
-    if (state !== "auto" && state !== "tele") return;
+    if (state !== "auto" && state !== "tele") {
+        return;
+    }
 
-    if (!confirm("End match and go to After page?")) return;
+    if (!confirm("End match and go to After page?")){
+        return;
+    }
 
     if (window.timerFunction) {
     clearInterval(timerFunction);
@@ -1174,7 +1179,6 @@ function endMatchEarly() {
     state = "after";
     transition(4);
 }
-
 
 
 document.getElementById("customStyleBtn").addEventListener("click", ()=>{
