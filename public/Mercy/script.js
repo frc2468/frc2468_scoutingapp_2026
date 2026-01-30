@@ -18,7 +18,7 @@ const firebaseConfig = {
   messagingSenderId: "1009813900313",
   appId: "1:1009813900313:web:a7c0ac40ee0e4cf0eeae88"
 };
-
+let inputs;
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
@@ -98,13 +98,6 @@ function uploadData() {
         "Empty Push, Upload Not Registered";
     return;
   }
-  /*
-  This goes through all_data and makes sure that we have no Regular Expressions ( /[\n\r]+/g ) in the input before
-  we start splitting the code
-  /[\n\r]+/g  is used to classify one or more consecutive newline (\n) or carriage return (\r) characters.
-  If we have any, they are getting replaced with '', which is how we delete them
-  */
-  all_data = all_data.replace(/[\n\r]+/g, '');
   //splits all the inputted data, to create a list of independent variables
   let rows = all_data.split(/\n/);
   // Getting the correct Data Labels and Data Types from dataStructure.js
@@ -143,7 +136,7 @@ function uploadData() {
                 `Invalid Match for ${data[0]}-${data[2]}-${data[3]}<br>`;
             break;
           }
-          if (!/^\d+$/.test(data[1]) || data[1].length > 4) {
+          if (!/^\d+$/.test(data[1])) {
             //Checking the Team Number
             valid = false;
             document.getElementById("status").innerHTML +=
@@ -254,6 +247,7 @@ let textBox = document.getElementById('input');
 textBox.addEventListener('keydown', (event) => {
   if(event.key === 'Enter'){
     let audioSrc;
+    /*
     switch(inputs){
       case 0: audioSrc = 'sfx/Spectrum_Kill_1.mp3.mp3'; inputs++; break;
       case 1: audioSrc = 'sfx/Spectrum_Kill_2.mp3.mp3'; inputs++; break;
@@ -263,6 +257,7 @@ textBox.addEventListener('keydown', (event) => {
       case 5: audioSrc = 'sfx/Spectrum_Kill_6.mp3.mp3'; inputs++; break;
       default: audioSrc = 'sfx/Spectrum_Kill_6.mp3.mp3';
     }
+    */
     const audio = new Audio(audioSrc);
     audio.play();
   }
