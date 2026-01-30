@@ -98,13 +98,6 @@ function uploadData() {
         "Empty Push, Upload Not Registered";
     return;
   }
-  /*
-  This goes through all_data and makes sure that we have no Regular Expressions ( /[\n\r]+/g ) in the input before
-  we start splitting the code
-  /[\n\r]+/g  is used to classify one or more consecutive newline (\n) or carriage return (\r) characters.
-  If we have any, they are getting replaced with '', which is how we delete them
-  */
-  //all_data = all_data.replace(/[\n\r]+/g, '');
   //splits all the inputted data, to create a list of independent variables
   let rows = all_data.split(/\n/);
   // Getting the correct Data Labels and Data Types from dataStructure.js
