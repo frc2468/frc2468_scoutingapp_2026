@@ -200,7 +200,7 @@ homeQataTable.addHeader(homeQataHeadNames);
 let homeQataTableBody = homeQataTable.getTableBody();
 document.getElementById("table-qata-container").appendChild(homeQataTable.getTable());
 
-let setPath = dataStructure.getPath("Final" + "/" + "Matches");
+let setPath = dataStructure.getPath("Matches");
 onValue(ref(db, setPath), (snapshot) => {
     if(snapshot.val()==null){
         return;
@@ -873,81 +873,81 @@ function sortTable(n) {
 
 let robotStats;
 setPath = dataStructure.getPath("Final" + "/" + "Robots")
-function generateRobotStats(data) {
-    let robots = data;
-    robotStats = {};
 
-    let robotKeys = Object.keys(robots);
-    for (let i = 0; i < robotKeys.length; i++) {
-        let robotNumber = robotKeys[i];
-        let tempRobotData = robots[robotKeys[i]];
-        let tempRobotDataKeys = Object.keys(tempRobotData);
-        for (let j = 0; j < tempRobotDataKeys.length; j++) {
-            let match = tempRobotData[tempRobotDataKeys[j]];
-            let matchNumber = tempRobotDataKeys[j];
-            if (!robotStats[robotNumber]) {
-                robotStats[robotNumber] = {};
+function generateRobotStats(matchData, dataStructure) {
+    const matchStats = {};
+
+    if (!matchData) return matchStats;
+
+    const matches = Object.keys(matchData);
+
+    matches.forEach(matchNumber => {
+        const match = matchData[matchNumber];
+        if (!match) return;
+
+        Object.keys(match).forEach(statName => {
+            const rawVal = parseFloat(match[statName]);
+            if (Number.isNaN(rawVal)) return;
+
+            if (!matchStats[statName]) {
+                matchStats[statName] = {
+                    values: [],
+                    matches: [],
+                    average: 0,
+                    standardDeviation: 0,
+                    percentile: 1,
+                    averagePts: 0,
+                    standardDeviationPts: 0,
+                    percentMax: 0
+                };
             }
-            let matchKeys = Object.keys(match);
-            for (let k = 0; k < matchKeys.length; k++) {
-                let statName = matchKeys[k];
-                if (!robotStats[robotNumber][statName]) {
-                    robotStats[robotNumber][statName] = {
-                        values: [],
-                        matches: [],
-                        standardDeviation: 0,
-                        average: 0,
-                        percentile: 1,
-                        averagePts: 0,
-                        standardDeviationPts: 0,
-                        percentMax: 0
-                    };
-                }
-                robotStats[robotNumber][statName].values.push(parseInt(match[statName]));
-                robotStats[robotNumber][statName].matches.push(parseInt(matchNumber));
-            }
-        }
-    }
-  
-    Object.keys(robotStats).forEach(robotNumber => { //find standard deviation, average
-        let robotStat = robotStats[robotNumber];
-        Object.keys(robotStat).forEach(statName => {
-            let multiplier = dataStructure.searchPointValue(statName);
-            let stat = robotStat[statName];
-            let mean = stat.values.reduce((a, b) => a + b) / stat.values.length;
-            let variance = stat.values.reduce((a, b) => a + (b - mean) ** 2, 0) / stat.values.length;
-            stat.standardDeviation = Math.sqrt(variance);
-            stat.average = mean;
-            stat.standardDeviationPts = Math.sqrt(variance) * multiplier;
-            stat.averagePts = mean * multiplier;
+
+            matchStats[statName].values.push(rawVal);
+            matchStats[statName].matches.push(parseInt(matchNumber));
         });
     });
-    let stats = dataStructure.getFilterLabels();
-   //let stats = Object.keys(robotStats[0]);
-   for (let i = 0; i < stats.length; i++) { //calculate percentile
-    let statName = stats[i];
-    let statArray = [];
-    Object.keys(robotStats).forEach(robotNumber => {
-        let robotStat = robotStats[robotNumber];
-        let stat = robotStat[stats[i]];
-        statArray.push(stat.average);
+
+    // compute averages + standard deviation
+    Object.keys(matchStats).forEach(statName => {
+        const stat = matchStats[statName];
+        if (!stat.values.length) return;
+
+        const mean =
+            stat.values.reduce((a, b) => a + b, 0) / stat.values.length;
+
+        const variance =
+            stat.values.reduce((a, b) => a + (b - mean) ** 2, 0) /
+            stat.values.length;
+
+        const multiplier = dataStructure.searchPointValue(statName) ?? 0;
+
+        stat.average = mean;
+        stat.standardDeviation = Math.sqrt(variance);
+        stat.averagePts = mean * multiplier;
+        stat.standardDeviationPts = Math.sqrt(variance) * multiplier;
     });
-    statArray.sort((a, b) => a - b);
-    let maxStat = statArray[statArray.length-1];
-    Object.keys(robotStats).forEach(robotNumber => { 
-        let robotStat = robotStats[robotNumber];
-        let stat = robotStat[statName];
-        for (let i = 0; i < statArray.length; i++) {
-            if (stat.average <= statArray[i]) {
-                stat.percentile = (i / statArray.length);
-                stat.percentMax = stat.average/maxStat;
-                break;
+
+    // percentile + percentMax
+    Object.keys(matchStats).forEach(statName => {
+        const stat = matchStats[statName];
+        if (!stat.values.length) return;
+
+        const sorted = [...stat.values].sort((a, b) => a - b);
+        const max = sorted[sorted.length - 1];
+
+        stat.values.forEach(val => {
+            if (val <= stat.average) {
+                stat.percentile =
+                    sorted.indexOf(val) / sorted.length;
             }
-        }
+        });
+
+        stat.percentMax = max ? stat.average / max : 0;
     });
-   }
-    //console.log(robotStats)
+
+    return matchStats;
 }
+
 
 let lineChart, histogram;
 

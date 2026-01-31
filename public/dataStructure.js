@@ -52,13 +52,13 @@ export class DataStructure {
 
 // Needs to be changed as of 1/14
 // How are we going to do the weighting???
-        this.wghtValues = [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0];
-        this.ptValues = [0, 0, 0, 0, 0, 0, 4, 0, 5, 4, 3, 2, 6, 4, 0, 1, 0, 0, 0];
-        this.autoPtValues = [3, 7, 6, 4, 3, 6, 4, 0];
-        this.telePtValues = [5, 4, 3, 2, 6, 4, 0, 1];
-        this.autoFilteredPtValues = [6, 4, 3];
-        this.teleFilteredPtValues = [5, 3, 2];
-        this.defPenPtValues = [1 / 6, 4, 0];
+        this.wghtValues = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+        this.ptValues = [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1];
+        this.autoPtValues = [0, 0, 0, 1, 0, 1];
+        this.telePtValues = [0, 0, 0, 0, 1, 0, 1];
+        this.autoFilteredPtValues = [0, 0, 0, 1, 0, 1];
+        this.teleFilteredPtValues = [0, 0, 0, 0, 1, 0, 1];
+        this.defPenPtValues = [1 / 6, 4];
         this.storedRobotsTotalPtAvg = {}
         this.storedRobotsAvgPtVals = {}
         let obj = {};
@@ -186,7 +186,8 @@ export class DataStructure {
         //adds up all match data for that data point wanted to be avged
         for(var j=0; j<this.matches.length; j++){
                     //adds value to temp val, which is the value that will later be avged
-            this.singlePtAvg += parseInt(robot[this.matches[j]][dataLabelsToCalc[i]])
+            this.singlePtAvg += this.normalizeValue(robot[this.matches[j]][dataLabelsToCalc[i]]);
+
         }
         //takes the the avg and rounds it to the tenth, then multiply by weight then equalizer, later want to make weight easily changeable
         //stores this avg int avg_tracker in table_cache
@@ -257,5 +258,22 @@ export class DataStructure {
           }
         return teleScore
     }
+
+    normalizeValue(val) {
+        if (val === true) {
+            return 1;
+        }
+        if (val === false){
+            return 0;
+        }
+
+        if (val === "" || val === null || val === undefined) {
+            return 0;
+        }
+
+        const num = Number(val);
+        return Number.isFinite(num) ? num : 0;
+    }
+
     
 }
