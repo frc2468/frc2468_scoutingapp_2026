@@ -38,25 +38,9 @@ window.addEventListener('online', internetOnline);
 window.addEventListener('offline', internetOffline);
 
 let rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-"Mobility",
-"Auto L4",
-"Auto L3",
-"Auto L2",
-"Auto L1",
-"Auto Processor",
-"Auto Net",
-"Auto Fumbled",
-"Tele L4",
-"Tele L3",
-"Tele L2",
-"Tele L1",
-"Tele Processor",
-"Tele Net",
-"Fumbled",
-"Climb",
-"Defense Time",
-"Penalty Count",
-"Oof Time");
+"Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
+            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
+            "Estimate Auto", "Estimate Tele");
 
 //Navigation
 let pageChange = new SwitchPage()
@@ -197,11 +181,11 @@ pageChange.switchEvent("home")
 //=============== HOME ===============
 var matchData = []
 var homeHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout",
-  "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Fumbled",
-  "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "T Fumbled", "Climb",
-  "Defense Time", "Penalty Count", "Oof Time");
+  "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
+            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
+            "Estimate Auto", "Estimate Tele", "Comment");
 
-var homeQataHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", "Climb QATA", "Intake QATA", "QATA");
+var homeQataHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", "Comment");
 
 //general table generation
 let homeTable = new AddTable();
@@ -448,7 +432,9 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
   
     //General data: Purely quantitative data, no descriptions or words, only numbers and bools
     let generalSearchData = new AddTable()
-    let generalLabels = ["Match", "Position", "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "Fumbled"]
+    let generalLabels = ["Match", "Position", "Match", "Team", "Position", "Scout",
+  "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
+            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Climb"]
     generalSearchData.addHeader(generalLabels);
     //gettin each match
     var row = document.createElement("tr");
@@ -466,7 +452,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
   
     //Qualatative data (Qata): Only descriptions/words nvm
     var qataSearchData = new AddTable()
-    let qataLabels = ["Match", "Position", "Scout", "Climb", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Intake QATA", "QATA"]
+    let qataLabels = ["Match", "Position", "Scout", "Tele Defense", "Oof Time", "Comment"]
     qataSearchData.addHeader(qataLabels);
     //gettin each match
     for (let i = 0; i < teamData.length; i++) {
@@ -608,7 +594,8 @@ function comptext(team) {
 
   //generates table for data and qata
   var gencomparedata = new AddTable()
-  let genlabels = ["Match", "Position", "Mobility", "Auto L4", "Auto L3", "Auto L2", "Auto L1", "Auto Processor", "Auto Net", "Auto Fumbled", "Tele L4", "Tele L3", "Tele L2", "Tele L1", "Tele Processor", "Tele Net", "Tele Fumbled"]
+  let genlabels = ["Match", "Position",  "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
+            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Climb"]
   gencomparedata.addHeader(genlabels);
 
   for (let i = 0; i < teamData.length; i++) {
@@ -624,7 +611,7 @@ function comptext(team) {
   dataDiv.appendChild(gencomparedata.table)
 
   var qatacomparedata = new AddTable();
-  let qatalabels = ["Match", "Position", "Scout", "Climb", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Intake QATA", "QATA"];
+  let qatalabels = ["Match", "Position", "Scout", "Tele Defense", "Oof Time", "Comment"];
   qatacomparedata.addHeader(qatalabels);
 
   for (let i = 0; i < teamData.length; i++) {
@@ -1641,24 +1628,9 @@ function calcAverage(robotInfo, potential = 0) {
 
 //=============== SETTINGS ===============
 var settingWghtHeadNames = dataStructure.createDataLabels("Mobility",
-  "Auto L4",
-  "Auto L3",
-  "Auto L2",
-  "Auto L1",
-  "Auto Processor",
-  "Auto Net",
-  "Auto Fumbled",
-  "Tele L4",
-  "Tele L3",
-  "Tele L2",
-  "Tele L1",
-  "Tele Processor",
-  "Tele Net",
-  "Fumbled",
-  "Climb",
-  "Defense Time",
-  "Penalty Count",
-  "Oof Time");
+  "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
+            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
+            "Estimate Auto", "Estimate Tele");
 
 //general table generation
 const settingWghtTable = new AddTable();
@@ -1682,25 +1654,19 @@ function getNewWeights() {
   }
   dataStructure.changeWghtValues(newWeights)
   var rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-      "Mobility",
-      "Auto L4",
-      "Auto L3",
-      "Auto L2",
-      "Auto L1",
-      "Auto Processor",
-      "Auto Net",
-      "Auto Fumbled",
-      "Tele L4",
-      "Tele L3",
-      "Tele L2",
-      "Tele L1",
-      "Tele Processor",
-      "Tele Net",
-      "Fumbled",
-      "Climb",
-      "Defense Time",
-      "Penalty Count",
-      "Oof Time");
+       "Auto Pickup",
+            "Auto Shot",
+            "Auto Feed",
+            "Auto Climb",
+            "Auto Win",
+            "Tele Pickup",
+            "Tele Shot",
+            "Tele Feed",
+            "Tele Defense",
+            "Tele Climb",
+            "Oof Time", 
+            "Estimate Auto", 
+            "Estimate Tele");
   setPath = dataStructure.getPath("Final" + "/" + "Robots");
   get(ref(db, setPath)).then((snapshot) => {
       var data = snapshot.val()
@@ -1716,25 +1682,19 @@ function resetWeights() {
       txtBoxes[i].value = defaultWeights[i];
   }
   var rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-      "Mobility",
-      "Auto L4",
-      "Auto L3",
-      "Auto L2",
-      "Auto L1",
-      "Auto Processor",
-      "Auto Net",
-      "Auto Fumbled",
-      "Tele L4",
-      "Tele L3",
-      "Tele L2",
-      "Tele L1",
-      "Tele Processor",
-      "Tele Net",
-      "Fumbled",
-      "Climb",
-      "Defense Time",
-      "Penalty Count",
-      "Oof Time");
+       "Auto Pickup",
+            "Auto Shot",
+            "Auto Feed",
+            "Auto Climb",
+            "Auto Win",
+            "Tele Pickup",
+            "Tele Shot",
+            "Tele Feed",
+            "Tele Defense",
+            "Tele Climb",
+            "Oof Time", 
+            "Estimate Auto", 
+            "Estimate Tele");
   setPath = dataStructure.getPath("Final" + "/" + "Robots");
   get(ref(db, setPath)).then((snapshot) => {
       var data = snapshot.val()
