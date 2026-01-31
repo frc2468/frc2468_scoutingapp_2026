@@ -10,8 +10,7 @@ export class DataStructure {
             "Estimate Auto", "Estimate Tele", "Comment"]
         this.dataTypes  = ["number", "number", "string", "string",
             "string", "number", "number", "number", "number", "number", "number",
-            "number", "number",
-            "number", "number", "number", "number", "number","string"];            
+            "number", "number", "number", "number", "number", "number", "number","string"];
         this.avgFilterLabels=[ 
             "Auto Pickup",
             "Auto Shot",
