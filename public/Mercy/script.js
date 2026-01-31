@@ -425,7 +425,7 @@ async function getapi(url) {
 
         if (match["Position"][0] == "b") {
           match["Team"] = (alliances.blue.team_keys[Number(match["Position"][1]) - 1]).substr(3);
-
+          /*
           if (Number(match["Position"][1]) == 1) {
             match["Mobility"] = scores.blue.mobilityRobot1;
             match["Auto Climb"] = scores.blue.autoChargeStationRobot1;
@@ -455,9 +455,10 @@ async function getapi(url) {
           } else {
             match["Climb"] = scores.blue.endGameBridgeState == "Level" ? "10" : "6";
           }
+           */
         } else {
           match["Team"] = (alliances.red.team_keys[Number(match["Position"][1]) - 1]).substr(3);
-
+          /*
           if (Number(match["Position"][1]) == 1) {
             match["Mobility"] = scores.red.mobilityRobot1;
             match["Auto Climb"] = scores.red.autoChargeStationRobot1;
@@ -471,7 +472,6 @@ async function getapi(url) {
             match["Auto Climb"] = scores.red.autoChargeStationRobot3;
             match["Climb"] = scores.red.endGameChargeStationRobot3;
           }
-
           match["Mobility"] = match["Mobility"] === "Yes" ? "1" : "0";
 
           if (match["Auto Climb"] == "None") {
@@ -487,6 +487,7 @@ async function getapi(url) {
           } else {
             match["Climb"] = scores.red.endGameBridgeState == "Level" ? "10" : "6";
           }
+          */
         }
 
         let setPath = dataStructure.getPath("Matches-TBA");
