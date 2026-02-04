@@ -92,6 +92,16 @@ export class Percentile {
         for(let i=0; i<keys.length; i++){
             let sorted_arr = []
             for(let j=1; j<this.percentileObject.length-1; j++){
+                let v = this.percentileObject[j][i];
+                if (typeof v === 'number' && !isNaN(v)){
+                    sorted_arr.push(v);
+                } else if (v === true){
+                    sorted_arr.push(1);
+                } else if (v === false){
+                    sorted_arr.push(0);
+                } else if (!isNaN(Number(v))){
+                    sorted_arr.push(Number(v));
+                }
                 sorted_arr.push(this.percentileObject[j][i])
             }
             sorted_arr.sort(function(a, b) {
@@ -116,11 +126,19 @@ export class Percentile {
         return "Error: team not found"
     }
     findPercentileOf(val, name) {
+        if (!name || !this.percentileObjectSorted[name] || this.percentileObjectSorted[name].length === 0)
+            return 0;
+        if (val === undefined || val === null || isNaN(Number(val))){
+            return 0;
+        }
+        let numericVal = Number(val);
         for (let i = 0; i < this.percentileObjectSorted[name].length; i++) {
-            if (this.percentileObjectSorted[name][i] > val) {
+            if (this.percentileObjectSorted[name][i] > numericVal) {
                 return (i / this.percentileObjectSorted[name].length);
             }
         }
+        // if value is greater than or equal to all entries, return 1
+        return 1;
     }
 
     returnData() {
