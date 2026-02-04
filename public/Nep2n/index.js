@@ -37,10 +37,8 @@ window.navigator.onLine ? internetOnline() : internetOffline();
 window.addEventListener('online', internetOnline);
 window.addEventListener('offline', internetOffline);
 
-let rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-"Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
-            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
-            "Estimate Auto", "Estimate Tele");
+let rankHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
+"Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
 
 //Navigation
 let pageChange = new SwitchPage()
@@ -143,9 +141,9 @@ document.addEventListener("keydown", function(e) {
                 break;
             case "p": //predict
                 let predictTeamList = searchVal.substring(1); //get the rest of the command
-                if (/^[0-9\s]+$/.test(teamList)) { //if the rest is numbers and spaces
+                if (/^[0-9\s]+$/.test(predictTeamList)) { //if the rest is numbers and spaces
                     pageChange.switchEvent("predict");
-                    let teamArray = teamList.split(" ");
+                    let teamArray = predictTeamList.split(" ");
                 } else {
                     alert("Invalid predict command");
                 } 
@@ -178,14 +176,13 @@ document.addEventListener("keydown", function(e) {
 //DEFAULT PAGE
 pageChange.switchEvent("home")
 
+
 //=============== HOME ===============
 var matchData = []
-var homeHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout",
-  "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
-            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
-            "Estimate Auto", "Estimate Tele", "Comment");
+var homeHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
+"Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
 
-var homeQataHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", "Comment");
+var homeQataHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", "Climb QATA", "Intake QATA", "QATA");
 
 //general table generation
 let homeTable = new AddTable();
@@ -200,7 +197,7 @@ homeQataTable.addHeader(homeQataHeadNames);
 let homeQataTableBody = homeQataTable.getTableBody();
 document.getElementById("table-qata-container").appendChild(homeQataTable.getTable());
 
-let setPath = dataStructure.getPath("Matches");
+let setPath = dataStructure.getPath("Final" + "/" + "Matches");
 onValue(ref(db, setPath), (snapshot) => {
     if(snapshot.val()==null){
         return;
@@ -257,6 +254,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Robots")), (snapshot) => 
   robotData = {}
   let robots = snapshot.val()
   let allRobots = Object.keys(robots)
+    console.log("[NEP2n] Robots snapshot — total keys:", allRobots.length, "sample:", allRobots.slice(0,10));
   for(let i=0;i<allRobots.length; i++){
     get(ref(db, dataStructure.getPath("Final" +"/" + "Robots" + "/" + allRobots[i]))).then((data) => {
         let fbRobotData = data.val()
@@ -274,6 +272,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Robots")), (snapshot) => 
         }
         //sortedRobotData[allRobots[i]] = tempRobotData;
         robotData[allRobots[i]] = tempRobotData;
+        console.log("[NEP2n] loaded team", allRobots[i], "matches:", matchKeys.length);
 
         //robotData.push(sortedRobotData)
         if (i == allRobots.length-1) {
@@ -294,9 +293,11 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Pitscout")), (snapshot) =
     pitData = []
       let pit = snapshot.val()
     let allPits = Object.keys(pit)
+        console.log("[NEP2n] Pitscout snapshot — total keys:", allPits.length, "sample:", allPits.slice(0,10));
     for(let i=0;i<allPits.length; i++){
       get(ref(db, dataStructure.getPath("Final" +"/" + "Pitscout" + "/" + allPits[i]))).then((data) => {
           pitData.push(data.val())
+                    console.log("[NEP2n] loaded pitscout", allPits[i]);
       })
     }
   })
@@ -308,9 +309,11 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
     image = []
       let imaged = snapshot.val()
     let allImages = Object.keys(imaged)
+        console.log("[NEP2n] Image snapshot — total keys:", allImages.length, "sample:", allImages.slice(0,10));
     for(let i=0;i<allImages.length; i++){
       get(ref(db, dataStructure.getPath("Final" +"/" + "Image" + "/" + allImages[i]))).then((data) => {
           image.push(data.val())
+                    console.log("[NEP2n] loaded image", allImages[i]);
       })
     }
   })
@@ -432,9 +435,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
   
     //General data: Purely quantitative data, no descriptions or words, only numbers and bools
     let generalSearchData = new AddTable()
-    let generalLabels = ["Match", "Position", "Match", "Team", "Position", "Scout",
-  "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
-            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Climb"]
+    let generalLabels = ["Match", "Position","Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele"]
     generalSearchData.addHeader(generalLabels);
     //gettin each match
     var row = document.createElement("tr");
@@ -452,7 +453,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
   
     //Qualatative data (Qata): Only descriptions/words nvm
     var qataSearchData = new AddTable()
-    let qataLabels = ["Match", "Position", "Scout", "Tele Defense", "Oof Time", "Comment"]
+    let qataLabels = ["Match", "Position", "Scout", "Climb", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Intake QATA", "QATA"]
     qataSearchData.addHeader(qataLabels);
     //gettin each match
     for (let i = 0; i < teamData.length; i++) {
@@ -487,9 +488,10 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
     //d = data, which gets put into the chart
     let spiderStats = dataStructure.getSpiderChartLabels();
     let d = []; 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < spiderStats.length; i++) {
         let currentStat = spiderStats[i];
-        let percentileValueCalculated = percentile.findPercentileOf(td[percentile.percentileObject[0].indexOf(currentStat)], currentStat);
+        let idx = percentile.percentileObject[0].indexOf(currentStat);
+        let percentileValueCalculated = percentile.findPercentileOf(td[idx], currentStat);
         let percentileValue = percentileValueCalculated == undefined || percentileValueCalculated >= 1.0 ? 1.0 : percentileValueCalculated;
         d.push(percentileValue);
     }
@@ -497,14 +499,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
   
     //chart setup
     const data = {
-        labels: [
-            'Auto pts',
-            'T_Cubes',
-            'T_Cones',
-            'T_Acc',
-            'End',
-            'Def'
-        ],
+        labels: spiderStats,
         datasets: [{
             label: ("Team " + team + " Percentiles"),
             data: d,
@@ -551,6 +546,49 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
             }
         }
     )
+// --- PIE CHART: distribution of Positions for this team's matches ---
+    try { document.getElementById("pieChart").remove(); } catch {};
+    let pieCanvas = document.createElement("canvas");
+    pieCanvas.setAttribute("id", "pieChart");
+    document.getElementById("pie-container").appendChild(pieCanvas);
+    // compute position counts
+    let posCounts = {};
+    for (let i = 0; i < teamData.length; i++) {
+        let pos = teamData[i]["Position"] || "?";
+        pos = (typeof pos === 'string' && pos.length > 0) ? pos[0] : String(pos);
+        posCounts[pos] = (posCounts[pos] || 0) + 1;
+    }
+    let pieLabels = Object.keys(posCounts);
+    let pieValues = pieLabels.map(l => posCounts[l]);
+    let pieColors = pieLabels.map((_, i) => `hsl(${(i * 80) % 360} 70% 50%)`);
+    if (window.pieChartInstance) { window.pieChartInstance.destroy(); }
+    window.pieChartInstance = new Chart(document.getElementById("pieChart"), {
+        type: 'pie',
+        data: { labels: pieLabels, datasets: [{ data: pieValues, backgroundColor: pieColors }] },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+
+    // --- BAR CHART: Auto Shot values per match ---
+    try { document.getElementById("barChart").remove(); } catch {};
+    let barCanvas = document.createElement("canvas");
+    barCanvas.setAttribute("id", "barChart");
+    document.getElementById("bar-container").appendChild(barCanvas);
+    // gather matches and Auto Shot values
+    let barLabels = [];
+    let barValues = [];
+    for (let i = 0; i < teamData.length; i++) {
+        let m = teamData[i]["Match"] || i+1;
+        barLabels.push(m.toString());
+        let v = Number(teamData[i]["Auto Shot"]);
+        if (isNaN(v)) v = 0;
+        barValues.push(v);
+    }
+    if (window.barChartInstance) { window.barChartInstance.destroy(); }
+    window.barChartInstance = new Chart(document.getElementById("barChart"), {
+        type: 'bar',
+        data: { labels: barLabels, datasets: [{ label: 'Auto Shot', data: barValues, backgroundColor: 'rgba(54,162,235,0.6)', borderColor: 'rgba(54,162,235,1)', borderWidth:1 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+    });
   
   }
 //=============== COMPARE ===============
@@ -594,8 +632,7 @@ function comptext(team) {
 
   //generates table for data and qata
   var gencomparedata = new AddTable()
-  let genlabels = ["Match", "Position",  "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
-            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Climb"]
+    let genlabels = ["Match", "Position", "Mobility", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb", "Auto Feed", "Auto Win", "Tele Outpost Pickup", "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot"]
   gencomparedata.addHeader(genlabels);
 
   for (let i = 0; i < teamData.length; i++) {
@@ -611,7 +648,7 @@ function comptext(team) {
   dataDiv.appendChild(gencomparedata.table)
 
   var qatacomparedata = new AddTable();
-  let qatalabels = ["Match", "Position", "Scout", "Tele Defense", "Oof Time", "Comment"];
+  let qatalabels = ["Match", "Position", "Scout", "Climb", "Defense Time", "Penalty Count", "Oof Time", "Climb QATA", "Intake QATA", "QATA"];
   qatacomparedata.addHeader(qatalabels);
 
   for (let i = 0; i < teamData.length; i++) {
@@ -686,9 +723,10 @@ function compchart(team) {
   let td = percentile.findAverageOfTeam(team);
   let spiderStats = dataStructure.getSpiderChartLabels();
   let d = []; 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < spiderStats.length; i++) {
       let currentStat = spiderStats[i];
-      let percentileValueCalculated = percentile.findPercentileOf(td[percentile.percentileObject[0].indexOf(currentStat)], currentStat);
+      let idx = percentile.percentileObject[0].indexOf(currentStat);
+      let percentileValueCalculated = percentile.findPercentileOf(td[idx], currentStat);
       let percentileValue = percentileValueCalculated == undefined || percentileValueCalculated >= 1.0 ? 1.0 : percentileValueCalculated;
       d.push(percentileValue);
   }
@@ -710,14 +748,7 @@ function compchart(team) {
   datasets.unshift(newChart);
 
   const data = {
-      labels: [
-        'Auto pts',
-        'T_Cubes',
-        'T_Cones',
-        'T_Acc',
-        'End',
-        'Def'
-      ],
+      labels: spiderStats,
       datasets: datasets,
       options: {
           scale: {
@@ -754,17 +785,10 @@ function displayRobot() {
       document.getElementById("c-qataContainer").innerHTML = robotsQataCompared[slideIndex].innerHTML;
       document.getElementById("compareRobots").innerHTML = robotAdded;
       document.getElementById("compareCurrRobot").innerHTML = robotAdded[slideIndex];
-      const data = {
-          labels: [
-            'Auto pts',
-            'T_Cubes',
-            'T_Cones',
-            'T_Acc',
-            'End',
-            'Def'
-          ],
-          datasets: datasets
-      };
+            const data = {
+                    labels: dataStructure.getSpiderChartLabels(),
+                    datasets: datasets
+            };
       addData(chart, data);
   } catch {
       alert("no robots to compare")
@@ -873,81 +897,81 @@ function sortTable(n) {
 
 let robotStats;
 setPath = dataStructure.getPath("Final" + "/" + "Robots")
+function generateRobotStats(data) {
+    let robots = data;
+    robotStats = {};
 
-function generateRobotStats(matchData, dataStructure) {
-    const matchStats = {};
-
-    if (!matchData) return matchStats;
-
-    const matches = Object.keys(matchData);
-
-    matches.forEach(matchNumber => {
-        const match = matchData[matchNumber];
-        if (!match) return;
-
-        Object.keys(match).forEach(statName => {
-            const rawVal = parseFloat(match[statName]);
-            if (Number.isNaN(rawVal)) return;
-
-            if (!matchStats[statName]) {
-                matchStats[statName] = {
-                    values: [],
-                    matches: [],
-                    average: 0,
-                    standardDeviation: 0,
-                    percentile: 1,
-                    averagePts: 0,
-                    standardDeviationPts: 0,
-                    percentMax: 0
-                };
+    let robotKeys = Object.keys(robots);
+    for (let i = 0; i < robotKeys.length; i++) {
+        let robotNumber = robotKeys[i];
+        let tempRobotData = robots[robotKeys[i]];
+        let tempRobotDataKeys = Object.keys(tempRobotData);
+        for (let j = 0; j < tempRobotDataKeys.length; j++) {
+            let match = tempRobotData[tempRobotDataKeys[j]];
+            let matchNumber = tempRobotDataKeys[j];
+            if (!robotStats[robotNumber]) {
+                robotStats[robotNumber] = {};
             }
-
-            matchStats[statName].values.push(rawVal);
-            matchStats[statName].matches.push(parseInt(matchNumber));
+            let matchKeys = Object.keys(match);
+            for (let k = 0; k < matchKeys.length; k++) {
+                let statName = matchKeys[k];
+                if (!robotStats[robotNumber][statName]) {
+                    robotStats[robotNumber][statName] = {
+                        values: [],
+                        matches: [],
+                        standardDeviation: 0,
+                        average: 0,
+                        percentile: 1,
+                        averagePts: 0,
+                        standardDeviationPts: 0,
+                        percentMax: 0
+                    };
+                }
+                robotStats[robotNumber][statName].values.push(parseInt(match[statName]));
+                robotStats[robotNumber][statName].matches.push(parseInt(matchNumber));
+            }
+        }
+    }
+  
+    Object.keys(robotStats).forEach(robotNumber => { //find standard deviation, average
+        let robotStat = robotStats[robotNumber];
+        Object.keys(robotStat).forEach(statName => {
+            let multiplier = dataStructure.searchPointValue(statName);
+            let stat = robotStat[statName];
+            let mean = stat.values.reduce((a, b) => a + b) / stat.values.length;
+            let variance = stat.values.reduce((a, b) => a + (b - mean) ** 2, 0) / stat.values.length;
+            stat.standardDeviation = Math.sqrt(variance);
+            stat.average = mean;
+            stat.standardDeviationPts = Math.sqrt(variance) * multiplier;
+            stat.averagePts = mean * multiplier;
         });
     });
-
-    // compute averages + standard deviation
-    Object.keys(matchStats).forEach(statName => {
-        const stat = matchStats[statName];
-        if (!stat.values.length) return;
-
-        const mean =
-            stat.values.reduce((a, b) => a + b, 0) / stat.values.length;
-
-        const variance =
-            stat.values.reduce((a, b) => a + (b - mean) ** 2, 0) /
-            stat.values.length;
-
-        const multiplier = dataStructure.searchPointValue(statName) ?? 0;
-
-        stat.average = mean;
-        stat.standardDeviation = Math.sqrt(variance);
-        stat.averagePts = mean * multiplier;
-        stat.standardDeviationPts = Math.sqrt(variance) * multiplier;
+    let stats = dataStructure.getFilterLabels();
+   //let stats = Object.keys(robotStats[0]);
+   for (let i = 0; i < stats.length; i++) { //calculate percentile
+    let statName = stats[i];
+    let statArray = [];
+    Object.keys(robotStats).forEach(robotNumber => {
+        let robotStat = robotStats[robotNumber];
+        let stat = robotStat[stats[i]];
+        statArray.push(stat.average);
     });
-
-    // percentile + percentMax
-    Object.keys(matchStats).forEach(statName => {
-        const stat = matchStats[statName];
-        if (!stat.values.length) return;
-
-        const sorted = [...stat.values].sort((a, b) => a - b);
-        const max = sorted[sorted.length - 1];
-
-        stat.values.forEach(val => {
-            if (val <= stat.average) {
-                stat.percentile =
-                    sorted.indexOf(val) / sorted.length;
+    statArray.sort((a, b) => a - b);
+    let maxStat = statArray[statArray.length-1];
+    Object.keys(robotStats).forEach(robotNumber => { 
+        let robotStat = robotStats[robotNumber];
+        let stat = robotStat[statName];
+        for (let i = 0; i < statArray.length; i++) {
+            if (stat.average <= statArray[i]) {
+                stat.percentile = (i / statArray.length);
+                stat.percentMax = stat.average/maxStat;
+                break;
             }
-        });
-
-        stat.percentMax = max ? stat.average / max : 0;
+        }
     });
-
-    return matchStats;
+   }
+    //console.log(robotStats)
 }
-
 
 let lineChart, histogram;
 
@@ -963,7 +987,10 @@ function displayRankings(data, rankHeadNames) {
     document.getElementById("rank-container").appendChild(rankTable.getTable());
   
     var robotNames = Object.keys(data)
-    rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score","Mobility","Auto L4","Auto L3","Auto L2","Auto L1","Auto Processor","Auto Net","Auto Fumbled","Tele L4","Tele L3","Tele L2","Tele L1","Tele Processor","Tele Net","Fumbled","Climb","Defense Time","Penalty Count","Oof Time");
+    rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score", "Mobility",
+        "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb", "Auto Feed", "Auto Win",
+        "Tele Outpost Pickup", "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb",
+        "Penalty Count", "Oof Time");
   var dataLabelsToCalc = rankHeadNames.splice(3);
   //for loop over each robot
   for (var i = 0; i < robotNames.length; i++) {
@@ -1225,18 +1252,18 @@ function createBins(data, numBins) {
     let min = data[0], max = data[data.length - 1];   // Get the minimum and maximum values in the data array
     let binSize = (max - min) / numBins;   // Calculate the bin size
     let binnedData = Array(numBins).fill(0);   // Initialize the binnedData array
-    let binLabels = Array(numBins);   // Initialize the binLabels array
-    for (let i = 0; i < numBins; i++) {   // Iterate through the data array
+    let binLabels = Array(numBins);
+    for (let i = 0; i < numBins; i++) {   
       let binStart = min + (i * binSize);
       let binEnd = binStart + binSize;
       binLabels[i] = `${binStart.toFixed(2)} - ${binEnd.toFixed(2)}`;
     }
     for (let i = 0; i < data.length; i++) {
-        let binNum = Math.floor((data[i] - min) / binSize);       // Calculate the bin number for the current data point
-        if(binNum === numBins) binNum--;       // Increment the count in the corresponding bin
-        binnedData[binNum]++;       // Create the bin label for the current bin, if it doesn't exist yet
+        let binNum = Math.floor((data[i] - min) / binSize);   
+        if(binNum === numBins) binNum--;
+        binnedData[binNum]++;
     }
-    return { binnedData, binLabels };   // Return the binnedData and binLabels arrays
+    return { binnedData, binLabels };   
   }
 
 //=============== PREDICT ===============
@@ -1359,7 +1386,7 @@ function predict() {
   var redDefPenTableBody = redDefPenTable.getTableBody();
   // vertical headers
   var gameStageHeader = dataStructure.createDataLabels("Auto", "Teleop", "Total");
-  var defPenHeader = dataStructure.createDataLabels("Defence Value", "Penalties");
+  var defPenHeader = dataStructure.createDataLabels("Defense Value", "Penalties");
   // getting data on each robot
   let arrayRobotData = [];
     let availRobots = Object.keys(robotData)
@@ -1627,10 +1654,8 @@ function calcAverage(robotInfo, potential = 0) {
 }
 
 //=============== SETTINGS ===============
-var settingWghtHeadNames = dataStructure.createDataLabels("Mobility",
-  "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
-            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
-            "Estimate Auto", "Estimate Tele");
+var settingWghtHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
+"Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
 
 //general table generation
 const settingWghtTable = new AddTable();
@@ -1653,20 +1678,8 @@ function getNewWeights() {
       newWeights.push(txtBoxes[i].value)
   }
   dataStructure.changeWghtValues(newWeights)
-  var rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-       "Auto Pickup",
-            "Auto Shot",
-            "Auto Feed",
-            "Auto Climb",
-            "Auto Win",
-            "Tele Pickup",
-            "Tele Shot",
-            "Tele Feed",
-            "Tele Defense",
-            "Tele Climb",
-            "Oof Time", 
-            "Estimate Auto", 
-            "Estimate Tele");
+  var rankHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
+  "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
   setPath = dataStructure.getPath("Final" + "/" + "Robots");
   get(ref(db, setPath)).then((snapshot) => {
       var data = snapshot.val()
@@ -1681,20 +1694,8 @@ function resetWeights() {
   for (var i = 0; i < settingWghtHeadNames.length; i++) {
       txtBoxes[i].value = defaultWeights[i];
   }
-  var rankHeadNames = dataStructure.createDataLabels("Rank", "Team", "Score",
-       "Auto Pickup",
-            "Auto Shot",
-            "Auto Feed",
-            "Auto Climb",
-            "Auto Win",
-            "Tele Pickup",
-            "Tele Shot",
-            "Tele Feed",
-            "Tele Defense",
-            "Tele Climb",
-            "Oof Time", 
-            "Estimate Auto", 
-            "Estimate Tele");
+  var rankHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
+  "Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
   setPath = dataStructure.getPath("Final" + "/" + "Robots");
   get(ref(db, setPath)).then((snapshot) => {
       var data = snapshot.val()
@@ -1947,3 +1948,70 @@ function updateDuplicateTable() {
   }
 
 //   originalTable.addEventListener("change", updateDuplicateTable);
+function extractGraphValues(teamData, labels) {
+    let values = [];
+
+    for (let i = 0; i < labels.length; i++) {
+        let label = labels[i];
+
+        // Skip non-numeric fields
+        if (label === "Match" || label === "Team" || label === "Position" || label === "Scout" || label === "Comment") {
+            values.push(0);
+            continue;
+        }
+
+        let v = parseFloat(teamData[label]);
+        values.push(isNaN(v) ? 0 : v);
+    }
+
+    return values;
+}
+
+function makeSettingsGraph(team) {
+    // get all robot data
+    let arrayRobotData = [];
+    let availRobots = Object.keys(robotData);
+    for (let i = 0; i < availRobots.length; i++) {
+        arrayRobotData.push(robotData[availRobots[i]]);
+    }
+
+    // find the team’s data
+    let teamData;
+    for (let i = 0; i < arrayRobotData.length; i++) {
+        if (Object.values(arrayRobotData[i])[0]["Team"] == team) {
+            teamData = Object.values(arrayRobotData[i])[0];
+        }
+    }
+
+    // extract values
+    let values = extractGraphValues(teamData, settingWghtHeadNames);
+
+    // reset canvas
+    try { document.getElementById("settingsGraph").remove(); } catch {}
+    let canvas = document.createElement("canvas");
+    canvas.id = "settingsGraph";
+    document.getElementById("settingsGraphContainer").appendChild(canvas);
+
+    // make chart
+    new Chart(canvas, {
+        type: "bar",
+        data: {
+            labels: settingWghtHeadNames,
+            datasets: [{
+                label: "Team " + team + " Settings",
+                data: values,
+                backgroundColor: "rgba(34, 176, 227, 0.4)",
+                borderColor: "rgb(34, 176, 227)",
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: { ticks: { color: "var(--text-color)" } },
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
