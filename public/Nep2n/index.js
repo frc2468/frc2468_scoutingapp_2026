@@ -38,7 +38,9 @@ window.addEventListener('online', internetOnline);
 window.addEventListener('offline', internetOffline);
 
 let rankHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
-"Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
+ "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
+            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
+            "Estimate Auto", "Estimate Tele", "Comment");
 
 //Navigation
 let pageChange = new SwitchPage()
@@ -180,7 +182,9 @@ pageChange.switchEvent("home")
 //=============== HOME ===============
 var matchData = []
 var homeHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", 
-"Starting Position", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele", "Comment");
+ "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
+            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
+            "Estimate Auto", "Estimate Tele", "Comment");
 
 var homeQataHeadNames = dataStructure.createDataLabels("Match", "Team", "Position", "Scout", "Climb QATA", "Intake QATA", "QATA");
 
@@ -435,7 +439,9 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
   
     //General data: Purely quantitative data, no descriptions or words, only numbers and bools
     let generalSearchData = new AddTable()
-    let generalLabels = ["Match", "Position","Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb","Auto Feed", "Auto Win", "Tele Outpost Pickup",  "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot", "Tele Defense", "Tele Climb", "Tele Climb Buddy","Tele Feed NZ", "Tele Feed Opp AZ", "Oof Time", "Estimate Auto", "Estimate Tele"]
+    let generalLabels = ["Match", "Position", "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
+            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
+            "Estimate Auto", "Estimate Tele"]
     generalSearchData.addHeader(generalLabels);
     //gettin each match
     var row = document.createElement("tr");
@@ -632,7 +638,9 @@ function comptext(team) {
 
   //generates table for data and qata
   var gencomparedata = new AddTable()
-    let genlabels = ["Match", "Position", "Mobility", "Auto Depot Pickup", "Auto Outpost Pickup", "Auto NZ Pickup", "Auto Dump", "Auto Trench", "Auto Shot", "Auto Climb", "Auto Feed", "Auto Win", "Tele Outpost Pickup", "Tele Pickup Own AZ", "Tele Pickup NZ", "Tele Pickup Opp AZ", "Tele Bump", "Tele Trench", "Tele Shot"]
+    let genlabels = ["Match", "Position",  "Starting Position", "Auto Pickup", "Auto Shot", "Auto Feed", "Auto Climb", "Auto Win",
+            "Tele Pickup",  "Tele Shot", "Tele Feed", "Tele Defense", "Tele Climb", "Oof Time",
+            "Estimate Auto", "Estimate Tele", "Comment"]
   gencomparedata.addHeader(genlabels);
 
   for (let i = 0; i < teamData.length; i++) {
