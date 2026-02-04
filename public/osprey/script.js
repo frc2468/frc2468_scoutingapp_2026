@@ -671,13 +671,13 @@ function updateTimer(){
             delay = !delay;
             return;
         }
-        if (timer <= 0 && !delay) {
+        if (timer <= 0 && !delay && state == "auto") {
             state = "tele";
             timer = TELE_TIME;
             transition(2);
             return;
         }
-        if(timer <= 0) {
+        if(timer <= 0 && state == "tele") {
             console.log("Game over");
             timer -= 1;
             state = "after";
