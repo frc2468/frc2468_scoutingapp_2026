@@ -920,7 +920,7 @@ function generateRobotStats(matchData, dataStructure) {
         Object.keys(match).forEach(statName => {
             const rawVal = parseFloat(match[statName]);
             if (Number.isNaN(rawVal)) return;
-
+            // default values for match stats in case of null
             if (!matchStats[statName]) {
                 matchStats[statName] = {
                     values: [],
@@ -933,7 +933,8 @@ function generateRobotStats(matchData, dataStructure) {
                     percentMax: 0
                 };
             }
-
+            
+            // parses raw value if necessary
             matchStats[statName].values.push(rawVal);
             matchStats[statName].matches.push(parseInt(matchNumber));
         });
@@ -942,8 +943,9 @@ function generateRobotStats(matchData, dataStructure) {
     // compute averages + standard deviation
     Object.keys(matchStats).forEach(statName => {
         const stat = matchStats[statName];
-        if (!stat.values.length) return;
-
+        if (!stat.values.length) {
+            return;
+        }
         const mean =
             stat.values.reduce((a, b) => a + b, 0) / stat.values.length;
 
@@ -962,7 +964,9 @@ function generateRobotStats(matchData, dataStructure) {
     // percentile + percentMax
     Object.keys(matchStats).forEach(statName => {
         const stat = matchStats[statName];
-        if (!stat.values.length) return;
+        if (!stat.values.length) {
+            return;
+        }
 
         const sorted = [...stat.values].sort((a, b) => a - b);
         const max = sorted[sorted.length - 1];
