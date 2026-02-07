@@ -64,15 +64,6 @@ document.querySelectorAll(".nav-container").forEach((el) => {
     pageChange.switchEvent(el.getAttribute("name"));
   });
 });
-/*
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Tab") {
-    e.preventDefault();
-    pageChange.toggleState ? pageChange.hidePanel() : pageChange.showPanel();
-    pageChange.toggleState = !pageChange.toggleState;
-  }
-});
-*/
 pageChange.switchEvent("upload");
 
 let hammer = new Hammer(document.body);
@@ -247,17 +238,6 @@ let textBox = document.getElementById('input');
 textBox.addEventListener('keydown', (event) => {
   if(event.key === 'Enter'){
     let audioSrc;
-    /*
-    switch(inputs){
-      case 0: audioSrc = 'sfx/Spectrum_Kill_1.mp3.mp3'; inputs++; break;
-      case 1: audioSrc = 'sfx/Spectrum_Kill_2.mp3.mp3'; inputs++; break;
-      case 2: audioSrc = 'sfx/Spectrum_Kill_3.mp3.mp3'; inputs++; break;
-      case 3: audioSrc = 'sfx/Spectrum_Kill_4.mp3.mp3'; inputs++; break;
-      case 4: audioSrc = 'sfx/Spectrum_Kill_5.mp3.mp3'; inputs++; break;
-      case 5: audioSrc = 'sfx/Spectrum_Kill_6.mp3.mp3'; inputs++; break;
-      default: audioSrc = 'sfx/Spectrum_Kill_6.mp3.mp3';
-    }
-    */
     const audio = new Audio(audioSrc);
     audio.play();
   }
@@ -417,79 +397,50 @@ async function getapi(url) {
     let matches = snapshot.val();
     let matches_key = Object.keys(matches);
     for (let i = 0; i < matches_key.length; i++) {
+
       if (availMatches.indexOf(matches[matches_key[i]]["Match"]) != -1) {
         let index = availMatches.indexOf(matches[matches_key[i]]["Match"]);
         let match = matches[matches_key[i]];
         let alliances = allData[index].alliances;
         let scores = allData[index].score_breakdown;
+        if (["left", "middle", "right"].includes(String(match["Starting Position"]).toLowerCase())) {
+          match["Starting Position"] = String(match["Starting Position"]).toLowerCase();
+        } else {
+          match["Starting Position"] = "middle";
+        }
+        //This is commented out right now because we will use that in the future
 
         if (match["Position"][0] == "b") {
           match["Team"] = (alliances.blue.team_keys[Number(match["Position"][1]) - 1]).substr(3);
           /*
           if (Number(match["Position"][1]) == 1) {
-            match["Mobility"] = scores.blue.mobilityRobot1;
             match["Auto Climb"] = scores.blue.autoChargeStationRobot1;
             match["Climb"] = scores.blue.endGameChargeStationRobot1;
           } else if (Number(match["Position"][1]) == 2) {
-            match["Mobility"] = scores.blue.mobilityRobot2;
             match["Auto Climb"] = scores.blue.autoChargeStationRobot2;
             match["Climb"] = scores.blue.endGameChargeStationRobot2;
           } else {
-            match["Mobility"] = scores.blue.mobilityRobot3;
             match["Auto Climb"] = scores.blue.autoChargeStationRobot3;
             match["Climb"] = scores.blue.endGameChargeStationRobot3;
           }
 
-          match["Mobility"] = match["Mobility"] === "Yes" ? "1" : "0";
-
-          if (match["Auto Climb"] == "None") {
-            match["Auto Climb"] = "0";
-          } else {
-            match["Auto Climb"] = scores.blue.autoBridgeState == "Level" ? "12" : "8";
-          }
-
-          if (match["Climb"] == "None") {
-            match["Climb"] = "0";
-          } else if (match["Climb"] == "Park") {
-            match["Climb"] = "2";
-          } else {
-            match["Climb"] = scores.blue.endGameBridgeState == "Level" ? "10" : "6";
-          }
            */
-        } else {
+
+        } else if (match["Position"][0] == "r") {
           match["Team"] = (alliances.red.team_keys[Number(match["Position"][1]) - 1]).substr(3);
           /*
           if (Number(match["Position"][1]) == 1) {
-            match["Mobility"] = scores.red.mobilityRobot1;
             match["Auto Climb"] = scores.red.autoChargeStationRobot1;
             match["Climb"] = scores.red.endGameChargeStationRobot1;
           } else if (Number(match["Position"][1]) == 2) {
-            match["Mobility"] = scores.red.mobilityRobot2;
             match["Auto Climb"] = scores.red.autoChargeStationRobot2;
             match["Climb"] = scores.red.endGameChargeStationRobot2;
           } else {
-            match["Mobility"] = scores.red.mobilityRobot3;
             match["Auto Climb"] = scores.red.autoChargeStationRobot3;
             match["Climb"] = scores.red.endGameChargeStationRobot3;
           }
-          match["Mobility"] = match["Mobility"] === "Yes" ? "1" : "0";
-
-          if (match["Auto Climb"] == "None") {
-            match["Auto Climb"] = "0";
-          } else {
-            match["Auto Climb"] = scores.red.autoBridgeState == "Level" ? "12" : "8";
-          }
-
-          if (match["Climb"] == "None") {
-            match["Climb"] = "0";
-          } else if (match["Climb"] == "Park") {
-            match["Climb"] = "2";
-          } else {
-            match["Climb"] = scores.red.endGameBridgeState == "Level" ? "10" : "6";
-          }
-          */
+           */
         }
-
         let setPath = dataStructure.getPath("Matches-TBA");
         remove(ref(db, setPath + match["Match"] + "-" + match["Position"] + "-" + match["Scout"] + "/"), match);
         set(child(ref(db, setPath), (match["Match"] + "-" + match["Position"] + "-" + match["Scout"] + "/")), match);
