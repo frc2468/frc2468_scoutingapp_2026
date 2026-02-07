@@ -279,7 +279,36 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Robots")), (snapshot) => 
             //console.log("ROBOT STATS, RANKINGS, SUMMARY UPDATING")
             generateRobotStats(robotData);
             displayRankings(robotData, rankHeadNames)
-            displaySummary(robotData);    
+            displaySummary(robotData);
+
+            // create an on-page debug panel listing loaded teams (click a team to run search)
+            let dbg = document.getElementById('debugPanel');
+            if (!dbg) {
+                dbg = document.createElement('div');
+                dbg.id = 'debugPanel';
+                dbg.style.position = 'fixed';
+                dbg.style.right = '8px';
+                dbg.style.top = '8px';
+                dbg.style.zIndex = '9999';
+                dbg.style.background = 'rgba(20,20,20,0.9)';
+                dbg.style.color = 'var(--text-color)';
+                dbg.style.padding = '0.5rem';
+                dbg.style.borderRadius = '6px';
+                dbg.style.maxHeight = '60vh';
+                dbg.style.overflow = 'auto';
+                dbg.style.fontFamily = 'Roboto Mono, monospace';
+                dbg.style.fontSize = '0.8rem';
+                document.body.appendChild(dbg);
+            }
+            dbg.innerHTML = "<strong>Teams (click to view)</strong><br/>Total: " + Object.keys(robotData).length + "<br/><div style='margin-top:6px'>" + allRobots.slice(0,200).map(t=>`<button data-team='${t}' style='margin:2px;padding:4px;border-radius:4px;background:#2b3a44;color:var(--text-color);border:0;cursor:pointer'>${t}</button>`).join('') + "</div>";
+            dbg.addEventListener('click', (ev)=>{
+                const team = ev.target && ev.target.getAttribute && ev.target.getAttribute('data-team');
+                if (team) {
+                    // populate search bar and run search
+                    document.getElementById('searchbar').value = team;
+                    search(team);
+                }
+            })
         }
     })
   }
@@ -321,9 +350,43 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
 
   function search(team) {
     let resetArr = ["imgContainer", "pitsData", "dataContainer", "qataContainer", "miscData", "chart-container"];
-    resetArr.forEach((elem) => {
-        document.getElementById(elem).innerHTML = ''
-    })
+    for (let i = 0; i < resetArr.length; i++) {
+        const id = resetArr[i];
+        const el = document.getElementById(id);
+        if (el && typeof el.innerHTML !== 'undefined') { el.innerHTML = ''; }
+    }
+    // Always show a small dummy Chart.js line chart for debugging/visibility
+    (function(){
+        let lineContainer = document.getElementById("line-container");
+        if (!lineContainer) {
+            lineContainer = document.createElement("div");
+            lineContainer.id = "line-container";
+            const searchPage = document.getElementById("search") || document.body;
+            searchPage.appendChild(lineContainer);
+        }
+        try { document.getElementById("simpleLineChartTop").remove(); } catch {}
+        let simpleTop = document.createElement("canvas");
+        simpleTop.id = "simpleLineChartTop";
+        simpleTop.width = 600;
+        simpleTop.height = 140;
+        simpleTop.style.display = "block";
+        simpleTop.style.border = "2px solid rgba(0,150,136,0.6)";
+        lineContainer.appendChild(simpleTop);
+        let labels = ["1","2","3","4","5"];
+        let data = [5,10,8,12,7];
+        try {
+            if (window.simpleLineChartTopInstance) window.simpleLineChartTopInstance.destroy();
+            const ctx = simpleTop.getContext('2d');
+            window.simpleLineChartTopInstance = new Chart(ctx, {
+                type: 'line',
+                data: { labels: labels, datasets: [{ label: 'Dummy Data', data: data, fill: false, borderColor: 'rgba(0,150,136,1)', backgroundColor: 'rgba(0,150,136,0.2)' }] },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+            console.log('[NEP2n] simpleLineChartTop rendered');
+        } catch (e) {
+            console.error('[NEP2n] simpleLineChartTop failed', e);
+        }
+    })();
     //if no team arg is passed, then search() will use the value in the search bar
     if (!team) {
         team = document.getElementById("searchbar").value;
@@ -589,8 +652,74 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
         data: { labels: barLabels, datasets: [{ label: 'Auto Shot', data: barValues, backgroundColor: 'rgba(54,162,235,0.6)', borderColor: 'rgba(54,162,235,1)', borderWidth:1 }] },
         options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
     });
+    // --- LINE CHART: Points scored per match ---
+    try { document.getElementById("lineChart").remove(); } catch {}
+    let lineCanvas = document.createElement("canvas");
+    lineCanvas.setAttribute("id", "lineChart");
+    document.getElementById("line-container").appendChild(lineCanvas);
+
+    let lineLabels = [];
+    let lineValues = [];
+    // compute points per match using DataStructure point values for labels
+    let scoreLabels = dataStructure.getFilterLabels();
+    for (let i = 0; i < teamData.length; i++) {
+        let matchNum = teamData[i]["Match"] || (i+1);
+        lineLabels.push(matchNum.toString());
+        let total = 0;
+        for (let j = 0; j < scoreLabels.length; j++) {
+            let lab = scoreLabels[j];
+            let val = Number(teamData[i][lab]);
+            if (isNaN(val)) val = 0;
+            let wt = dataStructure.searchPointValue(lab) || 0;
+            total += val * wt;
+        }
+        // include small contribution for defense/time if present in other filters
+        lineValues.push(Number(total.toFixed(2)));
+    }
+    if (window.lineChartInstance) { window.lineChartInstance.destroy(); }
+    window.lineChartInstance = new Chart(document.getElementById("lineChart"), {
+        type: 'line',
+        data: { labels: lineLabels, datasets: [{ label: 'Match Points', data: lineValues, fill: false, borderColor: 'rgba(75,192,192,1)', backgroundColor: 'rgba(75,192,192,0.4)', tension: 0.25 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+    });
+    }
+
+        // --- SIMPLE LINE GRAPH: placeholder ---
+        (function(){
+            let lineContainer = document.getElementById("line-container");
+            if (!lineContainer) {
+                lineContainer = document.createElement("div");
+                lineContainer.setAttribute("id", "line-container");
+                // place it into the search page as a fallback
+                const searchPage = document.getElementById("search") || document.body;
+                searchPage.appendChild(lineContainer);
+                console.log("[NEP2n] created missing line-container fallback");
+            }
+            try { document.getElementById("simpleLineChart").remove(); } catch {}
+            let simpleCanvas = document.createElement("canvas");
+            simpleCanvas.setAttribute("id", "simpleLineChart");
+            // give explicit pixel size (helps when CSS/grid may collapse)
+            simpleCanvas.width = 600;
+            simpleCanvas.height = 150;
+            simpleCanvas.style.display = "block";
+            simpleCanvas.style.border = "2px dashed rgba(153,102,255,0.8)"; // visible debug border
+            lineContainer.appendChild(simpleCanvas);
+            let simpleLabels = ["A", "B", "C", "D", "E"];
+            let simpleData = [12, 19, 3, 5, 2];
+            if (window.simpleLineChartInstance) { window.simpleLineChartInstance.destroy(); }
+            try {
+                const ctx = simpleCanvas.getContext('2d');
+                window.simpleLineChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: { labels: simpleLabels, datasets: [{ label: 'Sample Line', data: simpleData, fill: false, borderColor: 'rgba(153,102,255,1)', backgroundColor: 'rgba(153,102,255,0.2)', tension: 0.3 }]},
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+                });
+                console.log('[NEP2n] simpleLineChart rendered');
+            } catch (e) {
+                console.error('[NEP2n] failed to render simpleLineChart', e);
+            }
+        })();
   
-  }
 //=============== COMPARE ===============
 var robotsDataCompared = [];
 var robotsQataCompared = [];
