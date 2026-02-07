@@ -409,9 +409,10 @@ async function getapi(url) {
           match["Starting Position"] = "middle";
         }
         //This is commented out right now because we will use that in the future
-        /*
+
         if (match["Position"][0] == "b") {
           match["Team"] = (alliances.blue.team_keys[Number(match["Position"][1]) - 1]).substr(3);
+          /*
           if (Number(match["Position"][1]) == 1) {
             match["Auto Climb"] = scores.blue.autoChargeStationRobot1;
             match["Climb"] = scores.blue.endGameChargeStationRobot1;
@@ -423,9 +424,11 @@ async function getapi(url) {
             match["Climb"] = scores.blue.endGameChargeStationRobot3;
           }
 
+           */
+
         } else if (match["Position"][0] == "r") {
           match["Team"] = (alliances.red.team_keys[Number(match["Position"][1]) - 1]).substr(3);
-
+          /*
           if (Number(match["Position"][1]) == 1) {
             match["Auto Climb"] = scores.red.autoChargeStationRobot1;
             match["Climb"] = scores.red.endGameChargeStationRobot1;
@@ -436,8 +439,8 @@ async function getapi(url) {
             match["Auto Climb"] = scores.red.autoChargeStationRobot3;
             match["Climb"] = scores.red.endGameChargeStationRobot3;
           }
+           */
         }
-        */
         let setPath = dataStructure.getPath("Matches-TBA");
         remove(ref(db, setPath + match["Match"] + "-" + match["Position"] + "-" + match["Scout"] + "/"), match);
         set(child(ref(db, setPath), (match["Match"] + "-" + match["Position"] + "-" + match["Scout"] + "/")), match);
