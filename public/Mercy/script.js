@@ -29,7 +29,7 @@ let eventName;
 let API_URL;
 let toggleTBA = false;
 //let defaultFirebasePath = ["2025wimu", "2025txwac"];
-let defaultFirebasePath = ["2025txcmp1"];
+let defaultFirebasePath = ["2025txcmp1","2025txcmp2"];
 let firebasePath = localStorage.getItem('firebasePath');
 
 function promptForPath(defaultVal) {
@@ -189,6 +189,10 @@ function uploadData() {
             `Failed Upload for ${data[0]}-${data[2]}-${data[3]}:<br>${invalid}<br>`;
         continue;
       }
+      // IMMEDIATE BACKUP WRITE (NO TBA)
+      pushToBackupMatches(formatted);
+      pushToBackupRobots(formatted);
+
       const path = dataStructure.getPath("Matches");
       const key = `${formatted.Match}-${formatted.Position}-${formatted.Scout}`;
       set(child(ref(db, path), key), formatted);
@@ -365,6 +369,7 @@ function toggle(){
 document.getElementById("TBAtoggle").addEventListener("click", toggle);
 
 function directUpload(){
+  console.log("directUpload fired");
   let setPath = dataStructure.getPath("/" + "Matches");
   get(ref(db, setPath)).then((snapshot) => {
     if(snapshot.val() == null){
@@ -378,6 +383,7 @@ function directUpload(){
       let setPath = dataStructure.getPath("Matches-TBA");
       remove(ref(db, setPath + match["Match"] + "-" + match["Position"] + "-" + match["Scout"] + "/"), match);
       set(child(ref(db, setPath), (match["Match"] + "-" + match["Position"] + "-" + match["Scout"] + "/")), match);
+      pushToFinalRobots(match);
     }
   });
 }
@@ -489,6 +495,7 @@ async function getapi(url) {
           }
           */
         }
+        pushToFinalRobots(match);
 
         let setPath = dataStructure.getPath("Matches-TBA");
         remove(ref(db, setPath + match["Match"] + "-" + match["Position"] + "-" + match["Scout"] + "/"), match);
@@ -498,3 +505,37 @@ async function getapi(url) {
   });
 
 }
+
+function pushToFinalRobots(match) {
+  if (!match.Team || !match.Match) {
+    return;
+  }
+
+  const team = match.Team;
+  const matchNum = match.Match;
+
+  const finalRobotPath = dataStructure.getPath("Final/Robots/" + team);
+
+  // Write to Final
+  set(child(ref(db, finalRobotPath), matchNum), match);
+
+
+  console.log("Pushing robot:", team, matchNum);
+}
+
+
+
+function pushToBackupMatches(formatted) {
+  const key = `${formatted.Match}-${formatted.Position}`;
+  const path = dataStructure.getPath("Backup/Matches");
+  set(child(ref(db, path), key), formatted);
+}
+
+function pushToBackupRobots(formatted) {
+  if (!formatted.Team || !formatted.Match) return;
+
+  const path = dataStructure.getPath("Backup/Robots/" + formatted.Team);
+  set(child(ref(db, path), formatted.Match), formatted);
+}
+
+

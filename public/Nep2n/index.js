@@ -324,7 +324,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
 
 
   function search(team) {
-    let resetArr = ["imgContainer", "pitsData", "dataContainer", "qataContainer", "miscData", "chart-container"];
+    let resetArr = ["imgContainer", "dataContainer", "miscData", "chart-container"];
     resetArr.forEach((elem) => {
         document.getElementById(elem).innerHTML = ''
     })
@@ -422,8 +422,8 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
     twoPitDatas["Intake"] = manipulator;
   
     miscData.addCells(miscLabels, twoPitDatas, row);
-    document.getElementById("pitsData").innerHTML = "";
-    document.getElementById("pitsData").appendChild(miscData.table);
+    // document.getElementById("pitsData").innerHTML = "";
+    // document.getElementById("pitsData").appendChild(miscData.table);
 
     
     if (!teamData[0]) {
@@ -473,7 +473,7 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
         row.style.color = "var(--text-color)"
     }
   
-    document.getElementById("qataContainer").appendChild(qataSearchData.table);
+        // document.getElementById("qataContainer").appendChild(qataSearchData.table);
   
   
     //chart/graph: Radar graph of most important data
@@ -904,7 +904,8 @@ function sortTable(n) {
 }
 
 let robotStats;
-setPath = dataStructure.getPath("Final" + "/" + "Robots")
+setPath = dataStructure.getPath("Backup" + "/" + "Robots")
+console.log("setPath:", setPath);
 function generateRobotStats(matchData, dataStructure) {
     const matchStats = {};
 
