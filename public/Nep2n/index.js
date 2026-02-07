@@ -325,9 +325,10 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
 
   function search(team) {
     let resetArr = ["imgContainer", "pitsData", "dataContainer", "qataContainer", "miscData", "chart-container"];
-    resetArr.forEach((elem) => {
-        document.getElementById(elem).innerHTML = ''
-    })
+    for (let i = 0; i < resetArr.length; i++) {
+        const el = document.getElementById(resetArr[i]);
+        if (el) { el.innerHTML = ''; }
+    }
     //if no team arg is passed, then search() will use the value in the search bar
     if (!team) {
         team = document.getElementById("searchbar").value;
@@ -595,6 +596,49 @@ onValue(ref(db, dataStructure.getPath("Final" + "/" + "Image")), (snapshot) => {
         data: { labels: barLabels, datasets: [{ label: 'Auto Shot', data: barValues, backgroundColor: 'rgba(54,162,235,0.6)', borderColor: 'rgba(54,162,235,1)', borderWidth:1 }] },
         options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
     });
+    // --- LINE CHART: Shots over time (Auto vs Tele) ---
+    try { document.getElementById("shotsLineChart").remove(); } catch (e) {}
+    let shotsCanvas = document.createElement("canvas");
+    shotsCanvas.setAttribute("id", "shotsLineChart");
+    // append to the horizontal line container so it sits next to other line canvases
+    let lineContainerEl = document.getElementById("line-container");
+    if (!lineContainerEl) {
+        lineContainerEl = document.createElement("div");
+        lineContainerEl.id = "line-container";
+        document.getElementById("search").appendChild(lineContainerEl);
+    }
+    lineContainerEl.appendChild(shotsCanvas);
+    // prepare data
+    let matchLabels = [];
+    let autoShots = [];
+    let teleShots = [];
+    for (let i = 0; i < teamData.length; i++) {
+        let m = teamData[i]["Match"] || i+1;
+        matchLabels.push(m.toString());
+        let a = Number(teamData[i]["Auto Shot"]);
+        let t = Number(teamData[i]["Tele Shot"]);
+        if (isNaN(a)) a = 0;
+        if (isNaN(t)) t = 0;
+        autoShots.push(a);
+        teleShots.push(t);
+    }
+    if (window.shotsLineChartInstance) { try { window.shotsLineChartInstance.destroy(); } catch (e) {} }
+    try {
+        window.shotsLineChartInstance = new Chart(document.getElementById("shotsLineChart"), {
+            type: 'line',
+            data: {
+                labels: matchLabels,
+                datasets: [
+                    { label: 'Auto Shot', data: autoShots, borderColor: 'rgba(54,162,235,1)', backgroundColor: 'rgba(54,162,235,0.15)', tension: 0.2, fill: true },
+                    { label: 'Tele Shot', data: teleShots, borderColor: 'rgba(255,99,132,1)', backgroundColor: 'rgba(255,99,132,0.15)', tension: 0.2, fill: true }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+        console.log("[NEP2n] shotsLineChart rendered");
+    } catch (err) {
+        console.error("[NEP2n] failed to render shotsLineChart", err);
+    }
   
   }
 //=============== COMPARE ===============
